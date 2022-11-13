@@ -1,20 +1,164 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:spring="http://www.w3.org/1999/XSL/Transform">
+<!doctype html>
+<html lang="UTF-8">
 <head>
+  <link href="../css/register.css" rel="stylesheet">
+  <link href="../css/paraia_multi_select.css" rel="stylesheet">
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script src="../js/paraia_multi_select.min.js"></script>
+  <script src = "../js/register.js"></script>
+    <title>Document</title>
+
 </head>
 <body>
 <div class="container">
+  <!-- Heading -->
+  <h1>SIGN IN</h1>
 
-    <form action="/user/login" method="post">
-        <div class="form-group">
-            <label for="id">아이디</label>
-            <input type="text" id="id" name="id" placeholder="아이디를 입력하세요">
-            <label for="id">비밀번호</label>
-            <input type="text" id="password" name="password" placeholder="비밀번호를 입력하세요"> </div>
-        <button type="submit">로그인</button>
+  <!-- Links -->
+  <ul class="links">
+    <li>
+      <a href="#" id="signin">SIGN IN</a>
+    </li>
+    <li>
+      <a href="#" id="signup">SIGN UP</a>
+    </li>
+    <li>
+      <a href="#" id="reset">RESET</a>
+    </li>
+  </ul>
+
+  <!-- Form -->
+  <form id="Frm" onkeydown="if(event.keyCode==13) return false;">
+    <!-- email input -->
+    <div class="first-input input__block first-input__block">
+      <input type="email" placeholder="Email" class="input" id="USER_ID" name = "USER_ID"   />
+    </div>
+    <!--name input -->
+    <div class="input__block">
+      <input type="text" placeholder="Name" class="input repeat__password" id="USER_NAME" name = "USER_NAME"   />
+    </div>
+    <!-- password input -->
+    <div class="input__block">
+      <input type="password" placeholder="Password" class="input" id="USER_PASS" name = "USER_PASS"/>
+    </div>
+    <!--age input -->
+    <div class="input__block">
+      <input type="text" placeholder="Age" class="input repeat__password" id="USER_AGE" name = "USER_AGE"/>
+    </div>
+       <div class="col-6" style="display : none">
+         <h2>관심있는 분야를 골라주세요 :) </h2>
+         <br>
+         <input type="text" class="form-control"
+                data-paraia-multi-select="true"
+                placeholder="Select a stack" >
+
+         <br>
+       <!--  <input id = "show_selected" type="button" on> </input>-->
+       </div>
+
+      <!-- sign in button -->
+      <button class="signin__btn" type="button" onclick="join()" >
+        Sign in
+      </button>
     </form>
+  <!-- separator -->
+  <div class="separator">
+    <p>OR</p>
+  </div>
+  <!-- google button -->
+  <button class="google__btn">
+    <i class="fa fa-google"></i>
+    Sign in with Google
+  </button>
+  <!-- google button -->
+  <button class="github__btn">
+    <i class="fa fa-github"></i>
+    Sign in with GitHub
+  </button>
 </div>
+<script>
+
+  let items = [
+    {value: 1, text: 'PM/PO'},
+    {value: 2, text: 'UX/UI 디자이너'},
+    {value: 3, text: '프론트엔드'},
+    {value: 4, text: '백엔드'},
+    {value: 5, text: '앱'},
+    {value: 6, text: 'DevOps 엔지니어'},
+    {value: 7, text: '데이터 사이언스'},
+    {value: 8, text: '데이터 분석가'},
+    {value: 9, text: '데이터 엔지니어'},
+    {value: 10, text: '웹 디자이너'},
+  ]
+  const select = $('[data-paraia-multi-select="true"]').paraia_multi_select({
+    multi_select: true,
+    items: items,
+    defaults: [11, 12, 13],
+    rtl: false
+  });
+
+  jQuery.fn.serializeObject = function() {
+    var obj = null;
+    try {
+      if(this[0].tagName && this[0].tagName.toUpperCase() == "FORM" ) {
+        var arr = this.serializeArray();
+        if(arr){
+          obj = {};
+          jQuery.each(arr, function() {
+            obj[this.name] = this.value;
+          });
+        }
+      }
+    }catch(e) {
+      alert(e.message);
+    }finally  {}
+    return obj;
+  }
+
+  function join() {
+    const objParams = {
+      USER: $("#Frm").serializeObject()
+      , //유저 저장
+     // IT: select.paraia_multi_select('get_items')  //배열 저장
+    };
+    const USER_ID = $('#USER_ID').val();
+    const USER_NAME = $('#USER_NAME').val();
+    const USER_PASS = $('#USER_PASS').val();
+    const USER_AGE = $('#USER_AGE').val();
+
+
+
+    console.log(objParams.USER);
+
+    $.ajax({
+      traditional: true,	// ajax 배열 넘기기 옵션!
+      url: "/user/register",
+      type: 'POST',
+      data: {
+        USER_ID : USER_ID,
+        USER_NAME : USER_NAME,
+        USER_AGE : USER_AGE,
+        USER_PASS : USER_PASS,
+        IT :  select.paraia_multi_select('get_items')
+      },
+      success: function (data) {
+
+      }, // success
+
+      error: function (xhr, status) {
+        alert(xhr + " : " + status);
+      }
+    });
+  }
+  // $.ajax */    }
+
+</script>
+<footer>
+</footer>
+
 </body>
 </html>

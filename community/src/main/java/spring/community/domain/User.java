@@ -2,37 +2,41 @@ package spring.community.domain;
 
 public class User {
 
-    private String name;
-    private String id;
-    private String password;
-
-    public String getName() {
-        return name;
+    public String getUSER_ID() {
+        return USER_ID;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUSER_ID(String USER_ID) {
+        this.USER_ID = USER_ID;
     }
 
-    public String getId() {
-        return id;
+    public String getUSER_NAME() {
+        return USER_NAME;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUSER_NAME(String USER_NAME) {
+        this.USER_NAME = USER_NAME;
     }
 
-    public String getPassword() {
-        return password;
+    public String getUSER_PASS() {
+        return USER_PASS;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setUSER_PASS(String USER_PASS) {
+        this.USER_PASS = USER_PASS;
     }
 
-    @Override
-    public String toString(){
-        return "[ id = " + id + "password = "+ password+ ", name = "+ name + "]";
+    public Integer getUSER_AGE() {
+        return USER_AGE;
     }
+
+    public void setUSER_AGE(Integer USER_AGE) {
+        this.USER_AGE = USER_AGE;
+    }
+
+    private String USER_ID;
+    private String USER_NAME;
+    private String USER_PASS;
+    private Integer USER_AGE;
 
 }
