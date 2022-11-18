@@ -35,7 +35,7 @@
   <form id="Frm" onkeydown="if(event.keyCode==13) return false;">
     <!-- email input -->
     <div class="first-input input__block first-input__block">
-      <input type="email" placeholder="Email" class="input" id="USER_ID" name = "USER_ID"   />
+      <input type="email" placeholder="Email" class="input" id="USER_EMAIL" name = "USER_EMAIL"   />
     </div>
     <!--name input -->
     <div class="input__block">
@@ -101,49 +101,22 @@
     rtl: false
   });
 
-  jQuery.fn.serializeObject = function() {
-    var obj = null;
-    try {
-      if(this[0].tagName && this[0].tagName.toUpperCase() == "FORM" ) {
-        var arr = this.serializeArray();
-        if(arr){
-          obj = {};
-          jQuery.each(arr, function() {
-            obj[this.name] = this.value;
-          });
-        }
-      }
-    }catch(e) {
-      alert(e.message);
-    }finally  {}
-    return obj;
-  }
-
   function join() {
-    const objParams = {
-      USER: $("#Frm").serializeObject()
-      , //유저 저장
-     // IT: select.paraia_multi_select('get_items')  //배열 저장
-    };
-    const USER_ID = $('#USER_ID').val();
+    const USER_EMAIL = $('#USER_EMAIL').val();
     const USER_NAME = $('#USER_NAME').val();
     const USER_PASS = $('#USER_PASS').val();
     const USER_AGE = $('#USER_AGE').val();
-
-
-
-    console.log(objParams.USER);
 
     $.ajax({
       traditional: true,	// ajax 배열 넘기기 옵션!
       url: "/user/register",
       type: 'POST',
       data: {
-        USER_ID : USER_ID,
+        USER_EMAIL : USER_EMAIL,
         USER_NAME : USER_NAME,
         USER_AGE : USER_AGE,
         USER_PASS : USER_PASS,
-        IT :  select.paraia_multi_select('get_items')
+        IT : [select.paraia_multi_select('get_items')] // [1,2,8]
       },
       success: function (data) {
 
