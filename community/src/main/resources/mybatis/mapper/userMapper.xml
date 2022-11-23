@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.community.mapper.UserDao">
+    <insert id="join" parameterType="User" useGeneratedKeys="true" keyProperty="USER_ID">
+        insert into USER(USER_EMAIL, USER_NAME, USER_PASS, USER_AGE) values(#{USER_EMAIL}, #{USER_NAME}, #{USER_PASS}, #{USER_AGE})
+    </insert>
+
+    <insert id="userIt" parameterType="java.util.List">
+        insert into USER_IT(USER_ID, IT_ID) values
+        <foreach collection="list" item="item" separator=" , ">
+            (#{item.USER_ID}, #{item.IT_ID})
+        </foreach>
+    </insert>
+
+
+    <select id="readUserWithIDPW" resultType="User">
+		select *
+		from USER
+		where USER_EMAIL=#{USER_EMAIL} and USER_PASS=#{USER_PASS}
+	</select>
+
+
+  <!--  @Insert("insert into ITFIELD(USER_ID, FIELD) values(#{USER_ID}, #{FIELD})")
+    void setItField(IT itfield); // 회원가입-->
+</mapper>
