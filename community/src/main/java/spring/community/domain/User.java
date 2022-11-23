@@ -6,6 +6,25 @@ public class User {
     private String USER_NAME;
     private String USER_PASS;
     private int USER_AGE;
+    private String USER_ROLE;
+    private String USER_IMAGE;
+
+    public String getUSER_ROLE() {
+        return USER_ROLE;
+    }
+
+    public void setUSER_ROLE(String USER_ROLE) {
+        this.USER_ROLE = USER_ROLE;
+    }
+
+    public String getUSER_IMAGE() {
+        return USER_IMAGE;
+    }
+
+    public void setUSER_IMAGE(String USER_IMAGE) {
+        this.USER_IMAGE = USER_IMAGE;
+    }
+
     public String getUSER_EMAIL() {
         return USER_EMAIL;
     }

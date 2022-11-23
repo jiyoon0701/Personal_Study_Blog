@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface UserService {
     public void join(User user);
-    public User login(String user_id);
+    public User login(User user);
 
     public void userIt(List<User_IT> it);
 }

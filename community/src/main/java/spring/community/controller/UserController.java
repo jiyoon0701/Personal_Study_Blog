@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import spring.community.domain.User;
 import spring.community.domain.User_IT;
@@ -30,22 +27,23 @@ public class UserController {
     }
 
     @PostMapping("login")
-    public ModelAndView loginDo(User user, HttpSession session) {
+    public ModelAndView loginDo(@RequestParam Map<String, Object> param, HttpSession session, User user) {
         ModelAndView mav = new ModelAndView();
-
-        User dbuser = null;
+        user.setUSER_EMAIL((String) param.get("USER_EMAIL"));
+        user.setUSER_PASS((String) param.get("USER_PASS"));
+        User userVO = null;
         try { //아이디가 없는 경우 예외처리
-            dbuser = service.login(user.getUSER_EMAIL());
+            userVO = service.login(user);
         } catch (EmptyResultDataAccessException e) {
 
             return mav;
         }
-        if (user.getUSER_PASS().equals(dbuser.getUSER_PASS())) {
-            session.setAttribute("loginUser", dbuser);
+        if (userVO.getUSER_PASS().equals(user.getUSER_PASS())) {
+            session.setAttribute("loginUser", userVO);
         } else {
             return mav;
         }
-        mav.setViewName("redirect:/");
+
         return mav;
     }
 
@@ -53,6 +51,7 @@ public class UserController {
     public String registerView() {
         return "login";
     }
+
 
     @PostMapping("register")
     public ModelAndView register(@RequestParam Map<String, Object> param, User user) {
@@ -74,23 +73,23 @@ public class UserController {
         user.setUSER_AGE(USER_AGE);
         try {
             // 회원가입
-          service.join(user);
+            service.join(user);
             for (int i = 0; i < IT.length(); i++) {
                 int it = Integer.parseInt(String.valueOf(IT.charAt(i)));
                 userIT.add(new User_IT(user.getUSER_ID(), it));
             }
-          System.out.println(user.getUSER_ID()+"삽입");
-          service.userIt(userIT);
+            System.out.println(user.getUSER_ID()+"삽입");
+            service.userIt(userIT);
 
-         //   mav.addObject("user", USER);
-         } catch (DuplicateKeyException e){
-           //  result.reject("error.duplicate.user");
+            //   mav.addObject("user", USER);
+        } catch (DuplicateKeyException e){
+            //  result.reject("error.duplicate.user");
             // mav.getModel().putAll(result.getModel());
-             System.out.print("error");
-             mav.addObject("error","아이디가 중복입니다.");
-             return mav;
+            System.out.print("error");
+            mav.addObject("error","아이디가 중복입니다.");
+            return mav;
         }
         mav.setViewName("redirect:/");
         return mav;
+    }
 }
-        }

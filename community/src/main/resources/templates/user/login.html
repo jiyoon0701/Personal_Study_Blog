@@ -75,9 +75,9 @@
     Sign in with Google
   </button>
   <!-- google button -->
-  <button class="github__btn">
+  <button class="kakao__btn">
     <i class="fa fa-github"></i>
-    Sign in with GitHub
+    Sign in with Kakao
   </button>
 </div>
 <script>
@@ -102,30 +102,51 @@
   });
 
   function join() {
+    let signin_btn  = $("form").find(".signin__btn");
     const USER_EMAIL = $('#USER_EMAIL').val();
     const USER_NAME = $('#USER_NAME').val();
     const USER_PASS = $('#USER_PASS').val();
     const USER_AGE = $('#USER_AGE').val();
+    if (signin_btn.text() == "Sign up") {
 
-    $.ajax({
-      traditional: true,	// ajax 배열 넘기기 옵션!
-      url: "/user/register",
-      type: 'POST',
-      data: {
-        USER_EMAIL : USER_EMAIL,
-        USER_NAME : USER_NAME,
-        USER_AGE : USER_AGE,
-        USER_PASS : USER_PASS,
-        IT : [select.paraia_multi_select('get_items')] // [1,2,8]
-      },
-      success: function (data) {
+      $.ajax({
+        traditional: true,	// ajax 배열 넘기기 옵션!
+        url: "/user/register",
+        type: 'POST',
+        data: {
+          USER_EMAIL: USER_EMAIL,
+          USER_NAME: USER_NAME,
+          USER_AGE: USER_AGE,
+          USER_PASS: USER_PASS,
+          IT: [select.paraia_multi_select('get_items')] // [1,2,8]
+        },
+        success: function (data) {
+          if (data.code == 200){
+            window.location.href = "/";
+          }
 
-      }, // success
+        }, // success
 
-      error: function (xhr, status) {
-        alert(xhr + " : " + status);
-      }
-    });
+        error: function (xhr, status) {
+          alert(xhr + " : " + status);
+        }
+      });
+    } else {
+
+      $.ajax({
+        url: "/user/login",
+        type: 'POST',
+        data: {
+          USER_EMAIL: USER_EMAIL,
+          USER_PASS: USER_PASS,
+        },
+
+
+        error: function (xhr, status) {
+          alert(xhr + " : " + status);
+        }
+      });
+    }
   }
   // $.ajax */    }
 
