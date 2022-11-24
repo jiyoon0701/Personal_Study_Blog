@@ -27,8 +27,8 @@ public class UserController {
     }
 
     @PostMapping("login")
-    public ModelAndView loginDo(@RequestParam Map<String, Object> param, HttpSession session, User user) {
-        ModelAndView mav = new ModelAndView();
+    public String loginDo(@RequestParam Map<String, Object> param,HttpSession session, User user) {
+
         user.setUSER_EMAIL((String) param.get("USER_EMAIL"));
         user.setUSER_PASS((String) param.get("USER_PASS"));
         User userVO = null;
@@ -36,15 +36,13 @@ public class UserController {
             userVO = service.login(user);
         } catch (EmptyResultDataAccessException e) {
 
-            return mav;
+
         }
         if (userVO.getUSER_PASS().equals(user.getUSER_PASS())) {
             session.setAttribute("loginUser", userVO);
-        } else {
-            return mav;
         }
-
-        return mav;
+        System.out.println("hi");
+        return "/index";
     }
 
     @GetMapping("register")

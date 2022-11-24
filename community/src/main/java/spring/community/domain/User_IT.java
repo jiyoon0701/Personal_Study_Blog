@@ -1,15 +1,12 @@
 package spring.community.domain;
 
 public class User_IT {
-
     private int USER_ID;
     private int IT_ID;
-
     public User_IT(int user_id, int it) {
         this.USER_ID = user_id;
         this.IT_ID = it;
     }
-
 
     public int getUSER_ID() {
         return USER_ID;
