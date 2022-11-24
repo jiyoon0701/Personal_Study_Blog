@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="UTF-8">
+<head>
+    <!-- Toast UI Editor -->
+    <meta charset="utf-8" />
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+</head>
+<body>
+<h1 style="text-align:center"><input type = "text" placeholder=" 제목을 입력해주세요" id = "TITLE"></h1>
+<div id="editor"></div>
+<button onclick="save()">저장하기</button>
+<button onclick="seeHtml()">html보기</button>
+<button onclick="seeMd()">markdown보기</button>
+<script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+<script>
+    function imageUpload(formData) {
+        let imageURL;
+
+        $.ajax({
+            type: "POST",
+            url: "/board/imageupload",
+            async: false,
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                imageURL = data;
+                console.log(imageURL);
+            },
+            error: function (request, status, error) {
+                alert(request + ", " + status + ", " + error);
+            },
+        });
+
+        return imageURL;
+    }
+    const Editor = toastui.Editor;
+
+    const editor = new Editor({
+        el: document.querySelector('#editor'),
+        height: '600px',
+        initialEditType: 'markdown',
+        previewStyle: 'vertical',
+        hooks : {
+            addImageBlobHook: function (blob, callback) {
+                const formData = new FormData();
+                formData.append("image", blob);
+                formData.append("uri", window.location.pathname);
+                const imageURL = imageUpload(formData);
+                callback(imageURL, "image");
+            },
+        }
+    });
+
+    save = function (){
+
+        const title = $("#TITLE").val();
+        console.log("title"+title);
+        $.ajax({
+            type: "POST",
+            url: "/board/save",
+            data: {
+                TITLE : $("#TITLE").val(),
+                content_HTML : editor.getHTML().toString(),
+                content_MARK : editor.getMarkdown().toString(),
+            },
+            success: function (data) {
+                    console.log("저장 완료")
+            },
+            error: function (request, status, error) {
+                alert(request + ", " + status + ", " + error);
+            },
+        });
+    }
+    seeHtml = function(){
+        alert(editor.getHTML());
+    }
+    seeMd = function(){
+        alert(editor.getMarkdown());
+    }
+</script>
+</body>

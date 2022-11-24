@@ -1,16 +1,17 @@
 <!doctype html>
 <html lang="UTF-8">
 <head>
-  <link href="../css/register.css" rel="stylesheet">
-  <link href="../css/paraia_multi_select.css" rel="stylesheet">
+  <link href="../../../static/css/register.css"rel="stylesheet">
+  <link href="../../../static/css/paraia_multi_select.css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <script src="http://code.jquery.com/jquery-latest.js"></script>
-  <script src="../js/paraia_multi_select.min.js"></script>
-  <script src = "../js/register.js"></script>
+  <script src="../../../static/js/paraia_multi_select.min.js"></script>
+  <script src = "../../../static/js/register.js"></script>
     <title>Document</title>
+
 
 </head>
 <body>
@@ -57,7 +58,6 @@
                 placeholder="Select a stack" >
 
          <br>
-       <!--  <input id = "show_selected" type="button" on> </input>-->
        </div>
 
       <!-- sign in button -->
@@ -112,7 +112,7 @@
 
       $.ajax({
         traditional: true,	// ajax 배열 넘기기 옵션!
-        url: "/user/register",
+        url: "/user/join",
         type: 'POST',
         data: {
           USER_EMAIL: USER_EMAIL,
@@ -121,10 +121,14 @@
           USER_PASS: USER_PASS,
           IT: [select.paraia_multi_select('get_items')] // [1,2,8]
         },
-        success: function (data) {
-            console.log("sups");
+        success: function (result) {
+          if(result == "SUCCESS") {
+            alert("회원가입 성공");
+          }
+          else {
+            alert("중복된 아이디 입니다.");
+          }
         }, // success
-
         error: function (xhr, status) {
           alert(xhr + " : " + status);
         }
@@ -138,7 +142,15 @@
           USER_EMAIL: USER_EMAIL,
           USER_PASS: USER_PASS,
         },
+        success: function (result) {
+          if(result == "SUCCESS") {
+            window.location.href = "/";
+          }
+          else {
+            alert("아이디 및 비밀번호를 확인해주세요");
+          }
 
+        }, // success
 
         error: function (xhr, status) {
           alert(xhr + " : " + status);
@@ -146,11 +158,9 @@
       });
     }
   }
-  // $.ajax */    }
 
 </script>
 <footer>
 </footer>
-
 </body>
 </html>

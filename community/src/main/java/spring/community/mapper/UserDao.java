@@ -6,12 +6,13 @@ import spring.community.domain.User;
 import spring.community.domain.User_IT;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 @Repository
 public interface UserDao {
     public void join(User user);
     public void userIt(List<User_IT> it);
-
+    public int emailCheck(Map<String, Object> param);
     public User readUserWithIDPW(String USER_EMAIL, String USER_PASS);
 }

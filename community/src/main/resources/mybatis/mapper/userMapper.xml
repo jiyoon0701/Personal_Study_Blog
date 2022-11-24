@@ -13,14 +13,14 @@
         </foreach>
     </insert>
 
-
     <select id="readUserWithIDPW" resultType="User">
 		select *
 		from USER
 		where USER_EMAIL=#{USER_EMAIL} and USER_PASS=#{USER_PASS}
 	</select>
 
+    <select id="emailCheck" resultType="int">
+        select count(*) from USER where USER_EMAIL = #{USER_EMAIL}
+    </select>
 
-  <!--  @Insert("insert into ITFIELD(USER_ID, FIELD) values(#{USER_ID}, #{FIELD})")
-    void setItField(IT itfield); // 회원가입-->
 </mapper>

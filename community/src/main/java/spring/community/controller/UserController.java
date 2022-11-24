@@ -1,17 +1,20 @@
 package spring.community.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import spring.community.domain.User;
 import spring.community.domain.User_IT;
 import spring.community.service.UserService;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,33 +30,35 @@ public class UserController {
     }
 
     @PostMapping("login")
-    public String loginDo(@RequestParam Map<String, Object> param,HttpSession session, User user) {
+    public ResponseEntity<String> loginDo(@RequestParam Map<String, Object> param, HttpSession session, User user) {
+        ResponseEntity<String> entity = null;
 
         user.setUSER_EMAIL((String) param.get("USER_EMAIL"));
         user.setUSER_PASS((String) param.get("USER_PASS"));
         User userVO = null;
         try { //아이디가 없는 경우 예외처리
+            entity = new ResponseEntity<String>("SUCCESS", HttpStatus.valueOf(200));
             userVO = service.login(user);
-        } catch (EmptyResultDataAccessException e) {
+            if (userVO.getUSER_PASS().equals(user.getUSER_PASS())) {
+                session.setAttribute("email", userVO.getUSER_EMAIL());
+            }
 
-
+        } catch (Exception e) {
+            entity = new ResponseEntity<String>("FAIL", HttpStatus.valueOf(200));
         }
-        if (userVO.getUSER_PASS().equals(user.getUSER_PASS())) {
-            session.setAttribute("loginUser", userVO);
-        }
-        System.out.println("hi");
-        return "/index";
+        return entity;
     }
 
-    @GetMapping("register")
+    @GetMapping("join")
     public String registerView() {
         return "login";
     }
 
 
-    @PostMapping("register")
-    public ModelAndView register(@RequestParam Map<String, Object> param, User user) {
-        ModelAndView mav = new ModelAndView();
+    @PostMapping("join")
+    public ResponseEntity<String>  register(@RequestParam Map<String, Object> param, User user) {
+        ResponseEntity<String> entity = null;
+        Map<String,Object> map = new HashMap<String, Object>();
         List<User_IT> userIT = new ArrayList<>();
         String IT = (String) param.get("IT");
         String USER_EMAIL = (String)param.get("USER_EMAIL");
@@ -69,25 +74,27 @@ public class UserController {
         user.setUSER_PASS(USER_PASS);
         user.setUSER_NAME(USER_NAME);
         user.setUSER_AGE(USER_AGE);
+        map.put("USER_EMAIL",USER_EMAIL);
         try {
-            // 회원가입
-            service.join(user);
-            for (int i = 0; i < IT.length(); i++) {
-                int it = Integer.parseInt(String.valueOf(IT.charAt(i)));
-                userIT.add(new User_IT(user.getUSER_ID(), it));
-            }
-            System.out.println(user.getUSER_ID()+"삽입");
-            service.userIt(userIT);
+            int emailCk = service.emailCheck(map);
 
-            //   mav.addObject("user", USER);
-        } catch (DuplicateKeyException e){
-            //  result.reject("error.duplicate.user");
-            // mav.getModel().putAll(result.getModel());
+            if(emailCk > 1) {
+                entity = new ResponseEntity<String>("FAIL", HttpStatus.valueOf(200));
+            }
+            else {
+                // 회원가입
+                service.join(user);
+                for (int i = 0; i < IT.length(); i++) {
+                    int it = Integer.parseInt(String.valueOf(IT.charAt(i)));
+                    userIT.add(new User_IT(user.getUSER_ID(), it));
+                }
+                System.out.println(user.getUSER_ID() + "삽입");
+                service.userIt(userIT);
+                entity = new ResponseEntity<String>("SUCCESS", HttpStatus.valueOf(200));
+            }
+        } catch (Exception e) {
             System.out.print("error");
-            mav.addObject("error","아이디가 중복입니다.");
-            return mav;
         }
-        mav.setViewName("redirect:/");
-        return mav;
+        return entity;
     }
 }
