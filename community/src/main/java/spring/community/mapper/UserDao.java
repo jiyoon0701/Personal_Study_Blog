@@ -13,6 +13,8 @@ import java.util.Map;
 public interface UserDao {
     public void join(User user);
     public void userIt(List<User_IT> it);
-    public int emailCheck(Map<String, Object> param);
+
     public User readUserWithIDPW(String USER_EMAIL, String USER_PASS);
+
+    int emailCheck(Map<String, Object> param);
 }

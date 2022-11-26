@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.community.mapper.BoardDao">
+    <insert id="save" parameterType="Board" >
+        insert into board(USER_EMAIL, TITLE, CONTENT_HTML, CONTENT_MARK) values(#{USER_EMAIL}, #{TITLE}, #{CONTENT_HTML}, #{CONTENT_MARK})
+    </insert>
+
+    <select id="boardViewContent" resultType="Board">
+        select * from board where USER_EMAIL = #{USER_EMAIL}
+    </select>
+
+</mapper>

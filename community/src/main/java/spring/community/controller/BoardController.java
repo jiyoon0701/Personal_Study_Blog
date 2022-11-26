@@ -1,18 +1,30 @@
 package spring.community.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
+import spring.community.domain.Board;
+import spring.community.service.BoardService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
 @RequestMapping("board")
 public class BoardController {
+
+    @Autowired
+    BoardService boardService;
+
+    Map<String, Object> maps = new HashMap<String , Object>();
 
     @GetMapping("write")
     public String board_write(){
@@ -58,12 +70,30 @@ public class BoardController {
     }
 
     @PostMapping("save")
-    public String board_write(@RequestParam Map<String,Object> map){
-        System.out.println(map.get("TITLE"));
-        System.out.println(map.get("content_HTML"));
+    public String board_write(@RequestParam Map<String,Object> map, HttpSession session){
+        maps.clear();
+        maps.put("TITLE", map.get("TITLE"));
+        maps.put("CONTENT_HTML", map.get("content_HTML"));
+        maps.put("CONTENT_MARK", map.get("content_MARK"));
+        maps.put("USER_EMAIL", (String)session.getAttribute("email"));
         //ModelAndView ma = new ModelAndView();
-        //return
+        //ma.addObject("TITLE",map.get("TITLE"));
+        boardService.save(maps);
+
         return "redirect:/";
+    }
+
+    @GetMapping("view")
+    public ModelAndView boardView(HttpSession session){
+        ModelAndView ma = new ModelAndView();
+        maps.clear();
+        String email = (String)session.getAttribute("email");
+        maps.put("USER_EMAIL", email);
+        List<Board> boardList  = boardService.boardViewContent(maps);
+        ma.addObject("boardList", boardList);
+        ma.setViewName("board/view");
+        System.out.println(boardList.get(0).getTITLE());
+        return ma;
     }
 
 }
