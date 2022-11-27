@@ -76,10 +76,9 @@ public class BoardController {
         maps.put("CONTENT_HTML", map.get("content_HTML"));
         maps.put("CONTENT_MARK", map.get("content_MARK"));
         maps.put("USER_EMAIL", (String)session.getAttribute("email"));
-        //ModelAndView ma = new ModelAndView();
-        //ma.addObject("TITLE",map.get("TITLE"));
-        boardService.save(maps);
 
+     //   boardService.save(maps);
+        System.out.println((MultipartFile)map.get("file") + "asd");
         return "redirect:/";
     }
 
@@ -89,11 +88,18 @@ public class BoardController {
         maps.clear();
         String email = (String)session.getAttribute("email");
         maps.put("USER_EMAIL", email);
-        List<Board> boardList  = boardService.boardViewContent(maps);
+        List<Board> boardList  = boardService.boardView(maps); // 내가 작성한 글
         ma.addObject("boardList", boardList);
         ma.setViewName("board/view");
-        System.out.println(boardList.get(0).getTITLE());
         return ma;
     }
 
+    @GetMapping("contentView")
+    public ModelAndView contentView(@RequestParam Integer boardId){
+        ModelAndView ma = new ModelAndView();
+        Board contentView = boardService.boardContentView(boardId);
+        ma.addObject("content", contentView);
+        ma.setViewName("board/contentView");
+        return  ma;
+    }
 }

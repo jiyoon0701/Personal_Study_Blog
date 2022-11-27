@@ -9,11 +9,23 @@
 <body>
 <h1 style="text-align:center"><input type = "text" placeholder=" 제목을 입력해주세요" id = "TITLE"></h1>
 <div id="editor"></div>
-<button onclick="save()">저장하기</button>
-<button onclick="seeHtml()">html보기</button>
+<form id = "save">
+    <input type="file" id = "files"name = "files" multiple = "multiple">
+    <button type="button" id = "saveBtn">저장하기</button>
+</form>
+
+<button onclick="seeHtml()">html보기</button>]
 <button onclick="seeMd()">markdown보기</button>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <script>
+    $(function(){
+
+        $('#saveBtn').on('click', function(){
+            save();
+        });
+
+    });
     function imageUpload(formData) {
         let imageURL;
 
@@ -56,7 +68,10 @@
     save = function (){
 
         const title = $("#TITLE").val();
-        console.log("title"+title);
+        const files = $("#save")[0];
+        const formData = new FormData(files);
+        formData.append("uri", window.location.pathname);
+        alert("title"+formData);
         $.ajax({
             type: "POST",
             url: "/board/save",
@@ -64,9 +79,14 @@
                 TITLE : $("#TITLE").val(),
                 content_HTML : editor.getHTML().toString(),
                 content_MARK : editor.getMarkdown().toString(),
-            },
+                file : formData.values(),
+
+            },  processData: false,
+            contentType: false,
+
             success: function (data) {
-                    console.log("저장 완료")
+                  alert("등록 완료")
+                 window.location.href = "board/view";
             },
             error: function (request, status, error) {
                 alert(request + ", " + status + ", " + error);

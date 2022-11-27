@@ -3,10 +3,7 @@ package spring.community.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import spring.community.domain.Board;
-import spring.community.domain.User;
-import spring.community.domain.User_IT;
 import spring.community.mapper.BoardDao;
-import spring.community.mapper.UserDao;
 
 import java.util.List;
 import java.util.Map;
@@ -22,7 +19,12 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public List<Board> boardViewContent(Map<String, Object> param) {
-        return boardDao.boardViewContent(param);
+    public List<Board> boardView(Map<String, Object> param) {
+        return boardDao.boardView(param);
+    }
+
+    @Override
+    public Board boardContentView(Integer BOARD_ID) {
+        return boardDao.boardContentView(BOARD_ID);
     }
 }

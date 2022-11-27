@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<p th:text = "${content.BOARD_ID}"></p>
+<p th:text = "${content.USER_EMAIL}"></p>
+<p th:text = "${content.TITLE}"></p>
+<div class = "content_HTML" id = "content_HTML">
+
+</div>
+<div class = "content_MARK" id = "content_MARK">
+
+</div>
+</body>
+<script th:inline="javascript" charset="UTF-8">
+    const temp = document.createElement("div");
+    const content_html = [[${content.CONTENT_HTML}]];
+    temp.innerHTML = content_html;
+    document.querySelector(".content_HTML").append(temp);
+</script>
+</html>

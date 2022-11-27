@@ -6,8 +6,11 @@
         insert into board(USER_EMAIL, TITLE, CONTENT_HTML, CONTENT_MARK) values(#{USER_EMAIL}, #{TITLE}, #{CONTENT_HTML}, #{CONTENT_MARK})
     </insert>
 
-    <select id="boardViewContent" resultType="Board">
+    <select id="boardView" resultType="Board">
         select * from board where USER_EMAIL = #{USER_EMAIL}
     </select>
 
+    <select id="boardContentView" resultType="Board">
+        select * from board where BOARD_ID = #{BOARD_ID}
+    </select>
 </mapper>

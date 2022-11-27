@@ -9,5 +9,6 @@ import java.util.Map;
 
 public interface BoardService {
     public void save(Map<String, Object> param);
-    public List<Board> boardViewContent(Map<String, Object> param);
+    public List<Board> boardView(Map<String, Object> param);
+    public Board boardContentView(Integer BOARD_ID);
 }
