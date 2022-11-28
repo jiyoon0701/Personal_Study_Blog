@@ -64,22 +64,24 @@ public class BoardController {
         int index = request.getRequestURL().indexOf(path);
         String url = request.getRequestURL().substring(0, index);
 
-        // https://localhost:80801/webapp/upload/파일이름
+        // https://localhost:8081/webapp/upload/파일이름
 
         return url + request.getContextPath() + "/static/upload/" + newFileName;
     }
 
     @PostMapping("save")
     public String board_write(@RequestParam Map<String,Object> map, HttpSession session){
+
         maps.clear();
         maps.put("TITLE", map.get("TITLE"));
         maps.put("CONTENT_HTML", map.get("content_HTML"));
         maps.put("CONTENT_MARK", map.get("content_MARK"));
         maps.put("USER_EMAIL", (String)session.getAttribute("email"));
+        maps.put("REPRE_IMAGE", map.get("file_NAME"));
+        boardService.save(maps); // 게시글 저장'
 
-     //   boardService.save(maps);
-        System.out.println((MultipartFile)map.get("file") + "asd");
         return "redirect:/";
+
     }
 
     @GetMapping("view")

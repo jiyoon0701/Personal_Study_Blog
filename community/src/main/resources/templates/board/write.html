@@ -10,13 +10,12 @@
 <h1 style="text-align:center"><input type = "text" placeholder=" 제목을 입력해주세요" id = "TITLE"></h1>
 <div id="editor"></div>
 <form id = "save">
-    <input type="file" id = "files"name = "files" multiple = "multiple">
+    <input type="file" id = "files"name = "files" multiple = "multiple" class="pre">
     <button type="button" id = "saveBtn">저장하기</button>
 </form>
 
 <button onclick="seeHtml()">html보기</button>]
 <button onclick="seeMd()">markdown보기</button>
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <script>
     $(function(){
@@ -34,15 +33,18 @@
             url: "/board/imageupload",
             async: false,
             data: formData,
+            async : false,
             processData: false,
             contentType: false,
             success: function (data) {
                 imageURL = data;
                 console.log(imageURL);
+
             },
             error: function (request, status, error) {
                 alert(request + ", " + status + ", " + error);
             },
+
         });
 
         return imageURL;
@@ -65,34 +67,74 @@
         }
     });
 
-    save = function (){
+    function callback(files, callbacks){ // 파일 이름 컴온
+        const formData = new FormData();
 
-        const title = $("#TITLE").val();
-        const files = $("#save")[0];
-        const formData = new FormData(files);
+        console.log(files)
         formData.append("uri", window.location.pathname);
-        alert("title"+formData);
-        $.ajax({
-            type: "POST",
-            url: "/board/save",
-            data: {
-                TITLE : $("#TITLE").val(),
-                content_HTML : editor.getHTML().toString(),
-                content_MARK : editor.getMarkdown().toString(),
-                file : formData.values(),
+        formData.append("image", files);
+        const imageUrl = imageUpload(formData);
+        callbacks(imageUrl);
 
-            },  processData: false,
-            contentType: false,
-
-            success: function (data) {
-                  alert("등록 완료")
-                 window.location.href = "board/view";
-            },
-            error: function (request, status, error) {
-                alert(request + ", " + status + ", " + error);
-            },
-        });
     }
+    function imageUrl(imageURL){
+        const imageUrlSplit = imageURL.split('/');
+        const fileName = imageUrlSplit[3];
+
+        $.ajax({
+                 type: "POST",
+                 url: "/board/save",
+                 data: {
+                     TITLE : $("#TITLE").val(),
+                     content_HTML : editor.getHTML().toString(),
+                     content_MARK : editor.getMarkdown().toString(),
+                     file_NAME : fileName.toString(),
+                 },
+                async: false,
+                 success: function (data) {
+                       alert("등록 완료")
+                      window.location.href = "/board/view";
+                 },
+                 error: function (request, status, error) {
+                     alert(request + ", " + status + ", " + error);
+                 },
+             });
+    }
+
+    function save(){
+        const files = document.querySelector(".pre").files[0];
+        console.log(files)
+        callback(files, imageUrl);
+    }
+
+
+        // const title = $("#TITLE").val();
+        //  const formData = new FormData();
+        //  const files = document.querySelector('input[type="file"]').files[0];
+        //  console.log(files)
+        //  formData.append("uri", window.location.pathname);
+        //  formData.append("image", files);
+        // const imageURL = imageUpload(formData);
+        //     const imageUrlSplit = imageURL.split('/');
+        //     const fileName = imageUrlSplit[3];
+        // $.ajax({
+        //     type: "POST",
+        //     url: "/board/save",
+        //     data: {
+        //         TITLE : $("#TITLE").val(),
+        //         content_HTML : editor.getHTML().toString(),
+        //         content_MARK : editor.getMarkdown().toString(),
+        //         file_NAME : fileName.toString(),
+        //     },
+        //     success: function (data) {
+        //           alert("등록 완료")
+        //          window.location.href = "/board/view";
+        //     },
+        //     error: function (request, status, error) {
+        //         alert(request + ", " + status + ", " + error);
+        //     },
+        // });
+
     seeHtml = function(){
         alert(editor.getHTML());
     }

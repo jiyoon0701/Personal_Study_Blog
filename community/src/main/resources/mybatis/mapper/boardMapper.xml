@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.community.mapper.BoardDao">
     <insert id="save" parameterType="Board" >
-        insert into board(USER_EMAIL, TITLE, CONTENT_HTML, CONTENT_MARK) values(#{USER_EMAIL}, #{TITLE}, #{CONTENT_HTML}, #{CONTENT_MARK})
+        insert into board(USER_EMAIL, TITLE, CONTENT_HTML, CONTENT_MARK, REPRE_IMAGE) values(#{USER_EMAIL}, #{TITLE}, #{CONTENT_HTML}, #{CONTENT_MARK}, #{REPRE_IMAGE})
     </insert>
 
     <select id="boardView" resultType="Board">
