@@ -1,57 +1,25 @@
 package spring.community.controller;
-
-import com.itextpdf.html2pdf.ConverterProperties;
-import com.itextpdf.html2pdf.HtmlConverter;
-import com.itextpdf.html2pdf.resolver.font.DefaultFontProvider;
-import com.itextpdf.io.font.FontProgram;
-import com.itextpdf.io.font.FontProgramFactory;
-import com.itextpdf.layout.element.IBlockElement;
-import com.itextpdf.layout.element.IElement;
-import com.itextpdf.layout.font.FontProvider;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
-import com.itextpdf.text.PageSize;
-import com.itextpdf.text.pdf.PdfDocument;
-import com.itextpdf.text.pdf.PdfWriter;
-import com.itextpdf.tool.xml.XMLWorker;
-import com.itextpdf.tool.xml.XMLWorkerFontProvider;
-import com.itextpdf.tool.xml.XMLWorkerHelper;
-import com.itextpdf.tool.xml.css.CssFile;
-import com.itextpdf.tool.xml.css.StyleAttrCSSResolver;
-import com.itextpdf.tool.xml.html.CssAppliers;
-import com.itextpdf.tool.xml.html.CssAppliersImpl;
-import com.itextpdf.tool.xml.html.Tags;
-import com.itextpdf.tool.xml.parser.XMLParser;
-import com.itextpdf.tool.xml.pipeline.css.CSSResolver;
-import com.itextpdf.tool.xml.pipeline.css.CssResolverPipeline;
-import com.itextpdf.tool.xml.pipeline.end.PdfWriterPipeline;
-import com.itextpdf.tool.xml.pipeline.html.HtmlPipeline;
-import com.itextpdf.tool.xml.pipeline.html.HtmlPipelineContext;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.logging.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import spring.community.config.S3UploaderService;
 import spring.community.domain.Board;
 import spring.community.service.BoardService;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
-import java.net.URLEncoder;
-import java.net.http.HttpHeaders;
-import java.net.http.HttpResponse;
-import java.nio.charset.Charset;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("board")
 @Slf4j
 public class BoardController {
@@ -59,7 +27,11 @@ public class BoardController {
     @Autowired
     BoardService boardService;
 
+    @Autowired
+    S3UploaderService s3Uploader;
+
     Map<String, Object> maps = new HashMap<String , Object>();
+
 
     @GetMapping("write")
     public String board_write(){
@@ -69,12 +41,14 @@ public class BoardController {
     @ResponseBody
     @PostMapping("imageupload")
     public String imageUpload(@RequestParam("image") MultipartFile multipartFile,
-                              @RequestParam String uri, HttpServletRequest request) {
+                              @RequestParam String uri, HttpServletRequest request) throws IOException {
 
         if(multipartFile.isEmpty()) {
             System.out.println("error ");
             return "not found";
         }
+
+        s3Uploader.upload(multipartFile, "/static/upload");
 
         String directory = request.getServletContext().getRealPath("/static/upload/");
 

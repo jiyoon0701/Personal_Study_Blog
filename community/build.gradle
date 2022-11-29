@@ -21,10 +21,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation "org.springframework.boot:spring-boot-devtools"
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
-	implementation 'com.itextpdf:itextpdf:5.5.13.3'
-	implementation 'com.itextpdf.tool:xmlworker:5.5.13.3'
-	// https://mvnrepository.com/artifact/com.itextpdf/html2pdf
-	implementation 'com.itextpdf:html2pdf:4.0.3'
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	runtimeOnly 'mysql:mysql-connector-java'
 }
 
