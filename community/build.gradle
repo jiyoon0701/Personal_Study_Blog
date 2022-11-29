@@ -16,9 +16,15 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.projectlombok:lombok:1.18.24'
+	annotationProcessor ('org.projectlombok:lombok:1.18.24')
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation "org.springframework.boot:spring-boot-devtools"
-	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.1.4'
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
+	implementation 'com.itextpdf:itextpdf:5.5.13.3'
+	implementation 'com.itextpdf.tool:xmlworker:5.5.13.3'
+	// https://mvnrepository.com/artifact/com.itextpdf/html2pdf
+	implementation 'com.itextpdf:html2pdf:4.0.3'
 	runtimeOnly 'mysql:mysql-connector-java'
 }
 

@@ -20,15 +20,15 @@
       <div class="row">
         <div class="col-md-4" th:each = "board:${boardList}">
           <div class="card">
-            <img class="card-img-top" alt="Bootstrap Thumbnail Second" src="https://www.layoutit.com/img/city-q-c-600-200-1.jpg" />
+            <img class="card-img-top" alt="Bootstrap Thumbnail Second" th:src= "@{../../static/upload/{REPRE_IMAGE} (REPRE_IMAGE = ${board.REPRE_IMAGE})}" />
             <div class="card-block">
               <h5 class="card-title">
                 <p th:text="${board.TITLE}"></p>
                 <p th:text="${board.BOARD_ID}"></p>
               </h5>
-              <p class="card-text">
-                Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.
-              </p>
+<!--              <p class="card-text">-->
+<!--                Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.-->
+<!--              </p>-->
               <p>
                 <a class="btn btn-primary" th:href="@{/board/contentView?boardId={BOARD_ID} (BOARD_ID=${board.BOARD_ID})}"> 보기</a>
               </p>
