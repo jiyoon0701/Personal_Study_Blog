@@ -14,8 +14,8 @@ public class BoardServiceImpl implements BoardService{
     @Autowired
     private BoardDao boardDao;
 
-    public void save(Map<String, Object> param) {
-         boardDao.save(param);
+    public void boardCreate(Board board) {
+         boardDao.boardCreate(board);
     }
 
     @Override
@@ -27,4 +27,16 @@ public class BoardServiceImpl implements BoardService{
     public Board boardContentView(Integer BOARD_ID) {
         return boardDao.boardContentView(BOARD_ID);
     }
+
+    @Override
+    public List<Board> boardAllView() {
+        return boardDao.boardAllView();
+    }
+
+    @Override
+    public void boardUpdate(Map<String, Object> param) {
+        boardDao.boardUpdate(param);
+    }
+
+
 }
