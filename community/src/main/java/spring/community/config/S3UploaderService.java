@@ -18,8 +18,13 @@ public class S3UploaderService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    // aws 이미지 경로 : ID / 블로그 ID (여러 개)/ 사진 URL (UUID + 파일 이름)
+
     public String upload(MultipartFile file, String dirName) throws IOException {
-        String storedFilePath = dirName + "/" + UUID.randomUUID() + file.getOriginalFilename();
+        String fileName = file.getOriginalFilename();
+        String ext = fileName.substring(fileName.lastIndexOf(".")+1);
+        String storedFilePath = dirName + "/" + UUID.randomUUID()+"."+ext;
+                //+ file.getOriginalFilename();
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(file.getSize());
         amazonS3Client.putObject(bucket, storedFilePath, file.getInputStream(), metadata);

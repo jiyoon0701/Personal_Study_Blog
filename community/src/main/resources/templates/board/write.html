@@ -75,11 +75,12 @@
         formData.append("image", files);
         const imageUrl = imageUpload(formData);
         callbacks(imageUrl);
-
     }
+
     function imageUrl(imageURL){
+        alert("imageURL", imageURL);
         const imageUrlSplit = imageURL.split('/');
-        const fileName = imageUrlSplit[3];
+        const fileName = imageUrlSplit[6]; // 파일 이미지
 
         $.ajax({
                  type: "POST",
@@ -106,34 +107,6 @@
         console.log(files)
         callback(files, imageUrl);
     }
-
-
-        // const title = $("#TITLE").val();
-        //  const formData = new FormData();
-        //  const files = document.querySelector('input[type="file"]').files[0];
-        //  console.log(files)
-        //  formData.append("uri", window.location.pathname);
-        //  formData.append("image", files);
-        // const imageURL = imageUpload(formData);
-        //     const imageUrlSplit = imageURL.split('/');
-        //     const fileName = imageUrlSplit[3];
-        // $.ajax({
-        //     type: "POST",
-        //     url: "/board/save",
-        //     data: {
-        //         TITLE : $("#TITLE").val(),
-        //         content_HTML : editor.getHTML().toString(),
-        //         content_MARK : editor.getMarkdown().toString(),
-        //         file_NAME : fileName.toString(),
-        //     },
-        //     success: function (data) {
-        //           alert("등록 완료")
-        //          window.location.href = "/board/view";
-        //     },
-        //     error: function (request, status, error) {
-        //         alert(request + ", " + status + ", " + error);
-        //     },
-        // });
 
     seeHtml = function(){
         alert(editor.getHTML());

@@ -3,7 +3,7 @@ package spring.community.domain;
 public class Board {
 
     private int BOARD_ID;
-    private String USER_EMAIL;
+    private Integer USER_ID;
     private String TITLE;
     private String CONTENT_MARK;
     private String CONTENT_HTML;
@@ -34,12 +34,12 @@ public class Board {
         this.BOARD_ID = BOARD_ID;
     }
 
-    public String getUSER_EMAIL() {
-        return USER_EMAIL;
+    public Integer getUSER_ID() {
+        return USER_ID;
     }
 
-    public void setUSER_EMAIL(String USER_EMAIL) {
-        this.USER_EMAIL = USER_EMAIL;
+    public void setUSER_ID(Integer USER_ID) {
+        this.USER_ID = USER_ID;
     }
 
     public String getTITLE() {

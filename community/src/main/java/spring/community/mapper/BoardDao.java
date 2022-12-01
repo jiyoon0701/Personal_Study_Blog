@@ -10,7 +10,10 @@ import java.util.Map;
 @Repository
 @Mapper
 public interface BoardDao {
-    public void save(Map<String, Object> param);
+    public void boardCreate(Board board);
     public List<Board> boardView(Map<String, Object> param);
     public Board boardContentView(Integer BOARD_ID);
+    public List<Board> boardAllView();
+
+    void boardUpdate(Map<String, Object> param);
 }

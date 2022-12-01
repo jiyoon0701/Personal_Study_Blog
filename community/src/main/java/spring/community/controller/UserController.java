@@ -41,6 +41,7 @@ public class UserController {
             userVO = service.login(user);
             if (userVO.getUSER_PASS().equals(user.getUSER_PASS())) {
                 session.setAttribute("email", userVO.getUSER_EMAIL());
+                session.setAttribute("userID",userVO.getUSER_ID());
             }
 
         } catch (Exception e) {
@@ -78,7 +79,7 @@ public class UserController {
         try {
             int emailCk = service.emailCheck(map);
 
-            if(emailCk > 1) {
+            if(emailCk >= 1) {
                 entity = new ResponseEntity<String>("FAIL", HttpStatus.valueOf(200));
             }
             else {

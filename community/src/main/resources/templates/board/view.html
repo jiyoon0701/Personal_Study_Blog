@@ -20,7 +20,7 @@
       <div class="row">
         <div class="col-md-4" th:each = "board:${boardList}">
           <div class="card">
-            <img class="card-img-top" alt="Bootstrap Thumbnail Second" th:src= "@{../../static/upload/{REPRE_IMAGE} (REPRE_IMAGE = ${board.REPRE_IMAGE})}" />
+            <img class="card-img-top" alt="Bootstrap Thumbnail Second" th:src= "@{https://community-pro.s3.ap-northeast-2.amazonaws.com/Community/{USER_ID}/{BOARD_ID}/{REPRE_IMAGE} (REPRE_IMAGE = ${board.REPRE_IMAGE}, USER_ID = ${board.USER_ID}, BOARD_ID = ${board.BOARD_ID})}" />
             <div class="card-block">
               <h5 class="card-title">
                 <p th:text="${board.TITLE}"></p>
@@ -30,7 +30,7 @@
 <!--                Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.-->
 <!--              </p>-->
               <p>
-                <a class="btn btn-primary" th:href="@{/board/contentView?boardId={BOARD_ID} (BOARD_ID=${board.BOARD_ID})}"> 보기</a>
+                <a class="btn btn-primary" th:href="@{/board/contentView/{BOARD_ID} (BOARD_ID=${board.BOARD_ID})}"> 보기</a>
               </p>
             </div>
           </div>

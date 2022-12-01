@@ -8,7 +8,7 @@
 <body>
 <input type="button" value="htmlToPDF" id="btnPrint">
 <p th:text = "${content.BOARD_ID}"></p>
-<p th:text = "${content.USER_EMAIL}"></p>
+<p th:text = "${content.USER_ID}"></p>
 <p th:text = "${content.TITLE}"></p>
 <div class = "content_HTML" id = "content_HTML">
 
@@ -30,7 +30,7 @@
         printWindow.document.write([[${content.CONTENT_HTML}]].toString());
         printWindow.document.write('</body></html>');
         printWindow.document.close();
-        //printWindow.print();
+        printWindow.print();
     });
 
     function htmlToPdf() {

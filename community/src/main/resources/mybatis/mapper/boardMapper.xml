@@ -2,15 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="spring.community.mapper.BoardDao">
-    <insert id="save" parameterType="Board" >
-        insert into board(USER_EMAIL, TITLE, CONTENT_HTML, CONTENT_MARK, REPRE_IMAGE) values(#{USER_EMAIL}, #{TITLE}, #{CONTENT_HTML}, #{CONTENT_MARK}, #{REPRE_IMAGE})
+    <insert id="boardCreate"  parameterType="Board" useGeneratedKeys="true" keyProperty="BOARD_ID">
+        insert into board(USER_ID) values(#{USER_ID})
     </insert>
 
     <select id="boardView" resultType="Board">
-        select * from board where USER_EMAIL = #{USER_EMAIL}
+        select * from board where USER_ID = #{USER_ID}
     </select>
 
     <select id="boardContentView" resultType="Board">
         select * from board where BOARD_ID = #{BOARD_ID}
     </select>
+
+    <select id="boardAllView" resultType="Board">
+        select * from board;
+    </select>
+    
+    <update id="boardUpdate"  parameterType="Board">
+        update board set TITLE = #{TITLE}, CONTENT_HTML = #{CONTENT_HTML},
+                         CONTENT_MARK = #{CONTENT_MARK}, REPRE_IMAGE = #{REPRE_IMAGE} where BOARD_ID = #{BOARD_ID}
+    </update>
 </mapper>
