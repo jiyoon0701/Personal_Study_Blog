@@ -4,12 +4,25 @@
     <!-- Toast UI Editor -->
     <meta charset="utf-8" />
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
+    <link rel="stylesheet" href="../../static/css/tag.css">
 </head>
 <body>
 <h1 style="text-align:center"><input type = "text" placeholder=" 제목을 입력해주세요" id = "TITLE"></h1>
 <div id="editor"></div>
 <form id = "save">
+    <label class="tags">
+        <span class="tags__title">Add Tag separated by comma</span>
+        <div class="tags__content">
+            <ul class="tags__list" id="list" aria-live="polite" aria-atomic="false"></ul>
+            <div class="tags__group">
+                <input type="text" class="tags__text" id="text" placeholder="태그를 입력해주세요" title="Write Tag separated by comma">
+                <button type="button" class="tags__empty" id="remove" aria-label="Remove all tags">&times;</button>
+            </div>
+        </div>
+    </label>
+
     <input type="file" id = "files"name = "files" multiple = "multiple" class="pre">
     <button type="button" id = "saveBtn">저장하기</button>
 </form>
@@ -39,12 +52,10 @@
             success: function (data) {
                 imageURL = data;
                 console.log(imageURL);
-
             },
             error: function (request, status, error) {
                 alert(request + ", " + status + ", " + error);
             },
-
         });
 
         return imageURL;
@@ -115,4 +126,5 @@
         alert(editor.getMarkdown());
     }
 </script>
+<script src="../../static/js/tag.js"></script>
 </body>
