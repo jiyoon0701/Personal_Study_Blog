@@ -2,3 +2,5 @@
 community/src/main/resources/application.properties
 
 community/src/main/webapp/static/css/styles.css
+
+community/src/main/webapp/static/css/style.css

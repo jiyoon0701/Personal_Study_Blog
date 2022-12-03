@@ -20,6 +20,7 @@ dependencies {
 	annotationProcessor ('org.projectlombok:lombok:1.18.24')
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation "org.springframework.boot:spring-boot-devtools"
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.5.2'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2'
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	runtimeOnly 'mysql:mysql-connector-java'
