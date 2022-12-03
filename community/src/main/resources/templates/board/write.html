@@ -9,9 +9,15 @@
     <link rel="stylesheet" href="../../static/css/tag.css">
 </head>
 <body>
-<h1 style="text-align:center"><input type = "text" placeholder=" 제목을 입력해주세요" id = "TITLE"></h1>
+<div>
+    <button type="button" class = "saveBtn" value= "false" name = "saveBtn">게시글 임시저장</button>
+    <a href = "board/delete">게시글 삭제</a>
+    <h1 style="text-align:center"><input type = "text" placeholder=" 제목을 입력해주세요" id = "TITLE"></h1>
+</div>
+
 <div id="editor"></div>
 <form id = "save">
+    <input type="text" style="display:none;"/> <!-- 의미없는 텍스트 박스 -->
     <label class="tags">
         <span class="tags__title">Add Tag separated by comma</span>
         <div class="tags__content">
@@ -22,9 +28,8 @@
             </div>
         </div>
     </label>
-
     <input type="file" id = "files"name = "files" multiple = "multiple" class="pre">
-    <button type="button" id = "saveBtn">저장하기</button>
+    <button type="button" class = "saveBtn" value= "true" name = "saveBtn">저장하기</button>
 </form>
 
 <button onclick="seeHtml()">html보기</button>]
@@ -32,99 +37,13 @@
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <script>
     $(function(){
-
-        $('#saveBtn').on('click', function(){
-            save();
+        $('.saveBtn').on('click', function(){
+            const x = document.getElementsByName("saveBtn")
+            console.log(x);
+        //    save();
         });
-
-    });
-    function imageUpload(formData) {
-        let imageURL;
-
-        $.ajax({
-            type: "POST",
-            url: "/board/imageupload",
-            async: false,
-            data: formData,
-            async : false,
-            processData: false,
-            contentType: false,
-            success: function (data) {
-                imageURL = data;
-                console.log(imageURL);
-            },
-            error: function (request, status, error) {
-                alert(request + ", " + status + ", " + error);
-            },
-        });
-
-        return imageURL;
-    }
-    const Editor = toastui.Editor;
-
-    const editor = new Editor({
-        el: document.querySelector('#editor'),
-        height: '600px',
-        initialEditType: 'markdown',
-        previewStyle: 'vertical',
-        hooks : {
-            addImageBlobHook: function (blob, callback) {
-                const formData = new FormData();
-                formData.append("image", blob);
-                formData.append("uri", window.location.pathname);
-                const imageURL = imageUpload(formData);
-                callback(imageURL, "image");
-            },
-        }
     });
 
-    function callback(files, callbacks){ // 파일 이름 컴온
-        const formData = new FormData();
-
-        console.log(files)
-        formData.append("uri", window.location.pathname);
-        formData.append("image", files);
-        const imageUrl = imageUpload(formData);
-        callbacks(imageUrl);
-    }
-
-    function imageUrl(imageURL){
-        alert("imageURL", imageURL);
-        const imageUrlSplit = imageURL.split('/');
-        const fileName = imageUrlSplit[6]; // 파일 이미지
-
-        $.ajax({
-                 type: "POST",
-                 url: "/board/save",
-                 data: {
-                     TITLE : $("#TITLE").val(),
-                     content_HTML : editor.getHTML().toString(),
-                     content_MARK : editor.getMarkdown().toString(),
-                     file_NAME : fileName.toString(),
-                 },
-                async: false,
-                 success: function (data) {
-                       alert("등록 완료")
-                      window.location.href = "/board/view";
-                 },
-                 error: function (request, status, error) {
-                     alert(request + ", " + status + ", " + error);
-                 },
-             });
-    }
-
-    function save(){
-        const files = document.querySelector(".pre").files[0];
-        console.log(files)
-        callback(files, imageUrl);
-    }
-
-    seeHtml = function(){
-        alert(editor.getHTML());
-    }
-    seeMd = function(){
-        alert(editor.getMarkdown());
-    }
 </script>
 <script src="../../static/js/tag.js"></script>
 </body>

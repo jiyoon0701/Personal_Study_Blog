@@ -1,5 +1,7 @@
 package spring.community.domain;
 
+import java.sql.Date;
+
 public class Board {
 
     private int BOARD_ID;
@@ -9,6 +11,35 @@ public class Board {
     private String CONTENT_HTML;
 
     private String REPRE_IMAGE;
+
+    public boolean isSTATE() {
+        return STATE;
+    }
+
+    public void setSTATE(boolean STATE) {
+        this.STATE = STATE;
+    }
+
+    private boolean STATE;
+
+    public String getTAG() {
+        return TAG;
+    }
+
+    public void setTAG(String TAG) {
+        this.TAG = TAG;
+    }
+
+    public Date getBOARD_DATE() {
+        return BOARD_DATE;
+    }
+
+    public void setBOARD_DATE(Date BOARD_DATE) {
+        this.BOARD_DATE = BOARD_DATE;
+    }
+
+    private String TAG;
+    private Date BOARD_DATE ;
 
     public String getCONTENT_MARK() {
         return CONTENT_MARK;

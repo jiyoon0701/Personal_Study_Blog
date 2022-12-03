@@ -79,6 +79,8 @@ public class BoardController {
         maps.put("CONTENT_MARK", map.get("content_MARK"));
         maps.put("REPRE_IMAGE", map.get("file_NAME"));
         maps.put("BOARD_ID", boardId);
+        maps.put("TAG", (String)map.get("TAG"));
+        maps.put("STATE", (boolean)map.get("STATE"));
         log.info("save id: ", boardId);
         // 게시글 작성
         boardService.boardUpdate(maps);
@@ -86,16 +88,16 @@ public class BoardController {
 
     }
 
-    @GetMapping("view") // 내가 작성한 글 반환
-    public ModelAndView boardView(HttpSession session){
+    @GetMapping("view/{state}") // 내가 작성한 글 반환
+    public ModelAndView boardView(HttpSession session, @PathVariable("state") boolean state){
         ModelAndView ma = new ModelAndView();
         maps.clear();
         String email = (String)session.getAttribute("email");
         int userID = (int) session.getAttribute("userID");
         maps.put("USER_EMAIL", email);
         maps.put("USER_ID", userID);
-
-        List<Board> boardList  = boardService.boardView(maps); // 내가 작성한 글
+        maps.put("STATE", state);
+        List<Board> boardList = boardService.boardView(maps);
         ma.addObject("boardList", boardList);
         ma.setViewName("board/view");
         return ma;
@@ -117,5 +119,10 @@ public class BoardController {
         ma.addObject("boardList", boardList);
         ma.setViewName("board/view");
         return ma;
+    }
+
+    @GetMapping("delete") // 게시글 삭제
+    public String boardDelete(){
+        return "redirect:/view";
     }
 }

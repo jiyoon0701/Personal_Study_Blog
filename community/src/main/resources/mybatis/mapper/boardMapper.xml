@@ -7,7 +7,7 @@
     </insert>
 
     <select id="boardView" resultType="Board">
-        select * from board where USER_ID = #{USER_ID}
+        select * from board where USER_ID = #{USER_ID} and STATE = #{STATE}
     </select>
 
     <select id="boardContentView" resultType="Board">
@@ -20,6 +20,6 @@
     
     <update id="boardUpdate"  parameterType="Board">
         update board set TITLE = #{TITLE}, CONTENT_HTML = #{CONTENT_HTML},
-                         CONTENT_MARK = #{CONTENT_MARK}, REPRE_IMAGE = #{REPRE_IMAGE} where BOARD_ID = #{BOARD_ID}
+                         CONTENT_MARK = #{CONTENT_MARK}, REPRE_IMAGE = #{REPRE_IMAGE}, TAG=#{TAG}, STATE = #{STATE} where BOARD_ID = #{BOARD_ID}
     </update>
 </mapper>
