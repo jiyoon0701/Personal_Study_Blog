@@ -1,9 +1,19 @@
 // TODO: Abstract
 // TODO: masking: examples match
-const tags = [];
+let tags = [];
 const text = document.getElementById('text');
 const list = document.getElementById('list');
 const remove = document.getElementById('remove');
+
+const bbb = document.getElementById("bbb");
+console.log(bbb);
+if (bbb != null){
+    const tag = bbb.value.split(',');
+    tags = tag;
+    for (let i in tag){
+        list.insertAdjacentHTML('beforeend', `<li class="tags__item"><span class="tags__inner">${tag[i]}</span><button type="button" class="tags__remove" aria-label="Remove ${tag[i]} tag">&times;</button></li>`);
+    }
+}
 function imageUpload(formData) {
     let imageURL;
 
@@ -27,12 +37,16 @@ function imageUpload(formData) {
     return imageURL;
 }
 const Editor = toastui.Editor;
-
+let mm =  '';
+if( document.getElementById('aaa') != null){
+   mm = document.getElementById('aaa').value;
+}
 const editor = new Editor({
     el: document.querySelector('#editor'),
     height: '600px',
     initialEditType: 'markdown',
     previewStyle: 'vertical',
+    initialValue : mm,
     hooks : {
         addImageBlobHook: function (blob, callback) {
             const formData = new FormData();
@@ -44,36 +58,48 @@ const editor = new Editor({
     }
 });
 
-function callback(files,callbacks){ // 파일 이름 컴온
+function callback(files,state,callbacks){ // 파일 이름 컴온
     const formData = new FormData();
 
     console.log(files)
-    formData.append("uri", window.location.pathname);
-    formData.append("image", files);
-    const imageUrl = imageUpload(formData);
-    callbacks(imageUrl);
+    if (files != null){
+        formData.append("uri", window.location.pathname);
+        formData.append("image", files);
+        const imageUrl = imageUpload(formData);
+        callbacks(state,imageUrl);
+    }else{
+        callbacks(state,null);
+    }
+
+
 }
 
-function imageUrl(imageURL){
+function imageUrl(state,imageURL){
     alert("imageURL", imageURL);
-    const imageUrlSplit = imageURL.split('/');
-    const fileName = imageUrlSplit[6]; // 파일 이미지
+    let imageUrlSplit = null;
+    let fileName = "null"; // 파일 이미지
+    if(imageURL != null){
+        imageUrlSplit = imageURL.split('/');
+        fileName = imageUrlSplit[6];
+    }
 
+    console.log("state:", state);
     $.ajax({
         type: "POST",
         url: "/board/save",
         data: {
+            BOARD_ID : $("#ccc").val(),
             TITLE : $("#TITLE").val(),
             content_HTML : editor.getHTML().toString(),
             content_MARK : editor.getMarkdown().toString(),
             file_NAME : fileName.toString(),
             TAG : tags.toString(),
-            STATE : $(".saveBtn").val()
+            STATE : state.toString()
         },
         async: false,
         success: function (data) {
             alert("등록 완료")
-            window.location.href = "/board/view/"+this.data.STATE;
+            window.location.href = "/board/view/"+state.toString();
         },
         error: function (request, status, error) {
             alert(request + ", " + status + ", " + error);
@@ -81,10 +107,16 @@ function imageUrl(imageURL){
     });
 }
 
-function save(){
-    const files = document.querySelector(".pre").files[0];
+function save(state){
+    let files = null;
+    if(document.querySelector(".pre") == null){
+        files = null;
+    }
+    else{
+        files = document.querySelector(".pre").files[0];
+    }
     console.log(files)
-    callback(files, imageUrl);
+    callback(files,state ,imageUrl);
 }
 
 seeHtml = function(){
@@ -97,6 +129,7 @@ const makeTag = (text) => {
     let output = `<li class="tags__item"><span class="tags__inner">${text}</span><button type="button" class="tags__remove" aria-label="Remove ${text} tag">&times;</button></li>`;
     list.insertAdjacentHTML('beforeend', output);
 }
+
 
 /**
  * Add items when typing

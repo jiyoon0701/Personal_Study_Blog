@@ -7,6 +7,7 @@
 </head>
 <body>
 <input type="button" value="htmlToPDF" id="btnPrint">
+<a  th:href="@{/board/delete/{BOARD_ID} (BOARD_ID=${content.BOARD_ID})}">게시글 삭제</a>
 <p th:text = "${content.BOARD_ID}"></p>
 <p th:text = "${content.USER_ID}"></p>
 <p th:text = "${content.TITLE}"></p>

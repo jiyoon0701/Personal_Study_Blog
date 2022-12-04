@@ -2,6 +2,7 @@ package spring.community.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,15 +39,19 @@ public class BoardController {
     static int boardId = 0;
 
     @GetMapping("write")
-    public String board_write(HttpSession session, Board board){
+    public ModelAndView board_write(HttpSession session, Board board){
         String email = (String)session.getAttribute("email");
+        ModelAndView ma = new ModelAndView();
         int userID = (int) session.getAttribute("userID");
         board.setUSER_ID(userID);
+        board.setSTATE("false");
         boardService.boardCreate(board);
         int id = board.getBOARD_ID();
         boardId = id;
         log.info("board id : "+id);
-        return "board/write";
+        ma.addObject("boardID", boardId);
+        ma.setViewName("board/write");
+        return ma;
     }
 
     @ResponseBody
@@ -72,15 +77,15 @@ public class BoardController {
     }
 
     @PostMapping("save")
-    public String board_write(@RequestParam Map<String,Object> map){
+    public String board_write(@RequestParam Map<String,Object> map, Board board){
         maps.clear();
         maps.put("TITLE", map.get("TITLE"));
         maps.put("CONTENT_HTML", map.get("content_HTML"));
         maps.put("CONTENT_MARK", map.get("content_MARK"));
         maps.put("REPRE_IMAGE", map.get("file_NAME"));
-        maps.put("BOARD_ID", boardId);
+        maps.put("BOARD_ID", Integer.parseInt((String) map.get("BOARD_ID")));
         maps.put("TAG", (String)map.get("TAG"));
-        maps.put("STATE", (boolean)map.get("STATE"));
+        maps.put("STATE", map.get("STATE"));
         log.info("save id: ", boardId);
         // 게시글 작성
         boardService.boardUpdate(maps);
@@ -89,7 +94,7 @@ public class BoardController {
     }
 
     @GetMapping("view/{state}") // 내가 작성한 글 반환
-    public ModelAndView boardView(HttpSession session, @PathVariable("state") boolean state){
+    public ModelAndView boardView(HttpSession session, @PathVariable("state") String state){
         ModelAndView ma = new ModelAndView();
         maps.clear();
         String email = (String)session.getAttribute("email");
@@ -121,8 +126,19 @@ public class BoardController {
         return ma;
     }
 
-    @GetMapping("delete") // 게시글 삭제
-    public String boardDelete(){
-        return "redirect:/view";
+    @GetMapping("delete/{boardID}") // 게시글 삭제
+    public String boardDelete(@PathVariable("boardID") int boardID){
+        boardService.boardDelete(boardID);
+        return "redirect:/board/view/true";
+    }
+
+    @GetMapping("update/{boardID}") // 업데이트를 위한 수정 페이지를 띄워줘야함
+    public ModelAndView boardUpdate(@PathVariable("boardID") int boardID){
+        ModelAndView ma = new ModelAndView();
+        Board contentView = boardService.boardContentView(boardID);
+        ma.addObject("content", contentView);
+        ma.addObject("boardID", contentView.getBOARD_ID());
+        ma.setViewName("board/write");
+        return  ma;
     }
 }

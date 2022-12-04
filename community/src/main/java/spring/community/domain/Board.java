@@ -12,15 +12,15 @@ public class Board {
 
     private String REPRE_IMAGE;
 
-    public boolean isSTATE() {
+    public String getSTATE() {
         return STATE;
     }
 
-    public void setSTATE(boolean STATE) {
+    public void setSTATE(String STATE) {
         this.STATE = STATE;
     }
 
-    private boolean STATE;
+    private String STATE;
 
     public String getTAG() {
         return TAG;

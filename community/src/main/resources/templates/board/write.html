@@ -10,9 +10,12 @@
 </head>
 <body>
 <div>
-    <button type="button" class = "saveBtn" value= "false" name = "saveBtn">게시글 임시저장</button>
-    <a href = "board/delete">게시글 삭제</a>
-    <h1 style="text-align:center"><input type = "text" placeholder=" 제목을 입력해주세요" id = "TITLE"></h1>
+    <button type="button" id = "priBtn" >게시글 임시저장</button>
+    <a  th:href="@{/board/delete/{BOARD_ID} (BOARD_ID=${boardID})}">게시글 삭제</a>
+    <h1 style="text-align:center"><input th:if="${content != null}"  type = "text" placeholder=" 제목을 입력해주세요" id = "TITLE" th:value="${content.TITLE}"></h1>
+    <input th:if="${content != null}" type="hidden" id="aaa" th:value="${content.CONTENT_MARK}"/>
+    <input th:if="${content != null}"  type="hidden" id="bbb" th:value="${content.TAG}"/>
+    <input  type="hidden" id="ccc" th:value="${boardID}"/>
 </div>
 
 <div id="editor"></div>
@@ -28,8 +31,10 @@
             </div>
         </div>
     </label>
-    <input type="file" id = "files"name = "files" multiple = "multiple" class="pre">
-    <button type="button" class = "saveBtn" value= "true" name = "saveBtn">저장하기</button>
+    <!--대표사진은 변경 불가능 -->
+
+    <input th:if="${content == null}" type="file" id = "files"name = "files" multiple = "multiple" class="pre">
+    <button type="button" id = "saveBtn">저장하기</button>
 </form>
 
 <button onclick="seeHtml()">html보기</button>]
@@ -37,10 +42,12 @@
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <script>
     $(function(){
-        $('.saveBtn').on('click', function(){
-            const x = document.getElementsByName("saveBtn")
-            console.log(x);
-        //    save();
+        $('#saveBtn').on('click', function(){
+            save("true");
+        });
+
+        $('#priBtn').on('click', function(){
+            save("false");
         });
     });
 

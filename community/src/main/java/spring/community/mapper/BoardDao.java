@@ -15,5 +15,7 @@ public interface BoardDao {
     public Board boardContentView(Integer BOARD_ID);
     public List<Board> boardAllView();
 
-    void boardUpdate(Map<String, Object> param);
+    public void boardUpdate(Map<String, Object> param);
+
+    public void boardDelete(int boardID);
 }
