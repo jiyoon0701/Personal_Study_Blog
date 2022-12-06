@@ -81,6 +81,7 @@ function imageUrl(state,imageURL){
     if(imageURL != null){
         imageUrlSplit = imageURL.split('/');
         fileName = imageUrlSplit[6];
+        alert(fileName);
     }
 
     console.log("state:", state);
@@ -94,7 +95,8 @@ function imageUrl(state,imageURL){
             content_MARK : editor.getMarkdown().toString(),
             file_NAME : fileName.toString(),
             TAG : tags.toString(),
-            STATE : state.toString()
+            STATE : state.toString(),
+            RATING : $("#star-rating input[type=radio]:checked").val(),
         },
         async: false,
         success: function (data) {

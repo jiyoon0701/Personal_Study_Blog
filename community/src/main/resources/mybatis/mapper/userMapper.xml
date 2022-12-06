@@ -23,4 +23,12 @@
         select count(*) from USER where USER_EMAIL = #{USER_EMAIL}
     </select>
 
+    <!--IT 직무 꺼내오기 -->
+    <select id = "userItInfo" resultType="String">
+        SELECT IT_NAME from IT where IT_ID in (select IT_ID from USER_IT WHERE USER_ID = #{USER_ID});
+    </select>
+
+    <select id="userInfo" resultType="User">
+        select * from USER where USER_ID = #{USER_ID}
+    </select>
 </mapper>

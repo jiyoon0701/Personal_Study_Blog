@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 import spring.community.domain.User;
 import spring.community.domain.User_IT;
 import spring.community.service.UserService;
@@ -97,5 +98,27 @@ public class UserController {
             System.out.print("error");
         }
         return entity;
+    }
+
+    @GetMapping("mypage")
+    public ModelAndView UserMypage(HttpSession session){
+        ModelAndView ma = new ModelAndView();
+        int userID = (int) session.getAttribute("userID");
+        Map<String, Object> maps = new HashMap<String , Object>();
+
+        maps.put("USER_ID", userID);
+        List it = service.userItInfo(maps);
+        User user = service.userInfo(maps);
+
+        ma.addObject("it", it);
+        ma.addObject("user",user);
+        ma.setViewName("user/mypage");
+        return ma;
+    }
+
+    @GetMapping("logout")
+    public String userLogout(HttpSession session){
+        session.invalidate();
+        return "redirect:/";
     }
 }

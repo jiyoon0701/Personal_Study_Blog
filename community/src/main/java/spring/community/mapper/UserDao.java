@@ -15,6 +15,8 @@ public interface UserDao {
     public void userIt(List<User_IT> it);
 
     public User readUserWithIDPW(String USER_EMAIL, String USER_PASS);
+    public List<String> userItInfo(Map<String, Object> param);
 
+    public User userInfo(Map<String, Object> param);
     int emailCheck(Map<String, Object> param);
 }

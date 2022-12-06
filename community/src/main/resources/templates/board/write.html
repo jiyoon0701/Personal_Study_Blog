@@ -7,15 +7,67 @@
 
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
     <link rel="stylesheet" href="../../static/css/tag.css">
+    <style>
+        /***
+ *  Simple Pure CSS Star Rating Widget Bootstrap 4
+ *
+ *  www.TheMastercut.co
+ *
+ ***/
+
+        @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
+        /* Styling h1 and links
+        ––––––––––––––––––––––––––––––––– */
+        h1[alt="Simple"] {color: white;}
+        a[href], a[href]:hover {font-size: 0.5em; text-decoration: none}
+
+        .starrating > input {display: none;}  /* Remove radio buttons */
+
+        .starrating > label:before {
+            content: "\f005"; /* Star */
+            margin: 2px;
+            font-size: 8em;
+            font-family: FontAwesome;
+            display: inline-block;
+        }
+
+        .starrating > label
+        {
+            color: #222222; /* Start color when not clicked */
+        }
+
+        .starrating > input:checked ~ label
+        { color: #ffca08 ; } /* Set yellow color when star checked */
+
+        .starrating > input:hover ~ label
+        { color: #ffca08 ;  } /* Set yellow color when star hover */
+    </style>
 </head>
 <body>
 <div>
     <button type="button" id = "priBtn" >게시글 임시저장</button>
     <a  th:href="@{/board/delete/{BOARD_ID} (BOARD_ID=${boardID})}">게시글 삭제</a>
-    <h1 style="text-align:center"><input th:if="${content != null}"  type = "text" placeholder=" 제목을 입력해주세요" id = "TITLE" th:value="${content.TITLE}"></h1>
-    <input th:if="${content != null}" type="hidden" id="aaa" th:value="${content.CONTENT_MARK}"/>
-    <input th:if="${content != null}"  type="hidden" id="bbb" th:value="${content.TAG}"/>
-    <input  type="hidden" id="ccc" th:value="${boardID}"/>
+    <h1 style="text-align:center">
+        <input type = "text" placeholder=" 제목을 입력해주세요" id = "TITLE" th:value="${content.TITLE}">
+    </h1>
+    <input type="hidden" id="aaa" th:value="${content.CONTENT_MARK}"/>
+    <input type="hidden" id="bbb" th:value="${content.TAG}"/>
+    <input type="hidden" id="ccc" th:value="${boardID}"/>
+</div>
+
+<button id="bb">별점</button>
+
+<h3 class="text-center" alt="Simple">중요도를 작성해주세요 :)</h3>
+
+<div class="container">
+    <div class="starrating risingstar d-flex justify-content-center flex-row-reverse"  id = "star-rating" style=" direction: rtl;">
+        <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 star">5</label>
+        <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 star">4</label>
+        <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 star">3</label>
+        <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 star">2</label>
+        <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star">1</label>
+    </div>
 </div>
 
 <div id="editor"></div>
@@ -33,7 +85,7 @@
     </label>
     <!--대표사진은 변경 불가능 -->
 
-    <input th:if="${content == null}" type="file" id = "files"name = "files" multiple = "multiple" class="pre">
+    <input th:if="${content.CONTENT_HTML == null}" type="file" id = "files"name = "files" multiple = "multiple" class="pre">
     <button type="button" id = "saveBtn">저장하기</button>
 </form>
 
@@ -42,13 +94,26 @@
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <script>
     $(function(){
+        let star_rating =$("#star-rating input[type=radio]:checked").val()
+
+
         $('#saveBtn').on('click', function(){
-            save("true");
+            if (star_rating == "undefined"){
+                alert("중요도를 선택해주세요");
+            }else {
+                save("true");
+            }
         });
 
         $('#priBtn').on('click', function(){
-            save("false");
+            if (star_rating == "undefined"){
+                alert("중요도를 선택해주세요");
+            }else {
+                save("false");
+            }
         });
+
+      //
     });
 
 </script>

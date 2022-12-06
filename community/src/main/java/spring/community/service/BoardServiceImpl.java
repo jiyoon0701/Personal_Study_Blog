@@ -34,6 +34,11 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
+    public void boardSaveUpdate(Map<String, Object> param) {
+        boardDao.boardSaveUpdate(param);
+    }
+
+    @Override
     public void boardUpdate(Map<String, Object> param) {
         boardDao.boardUpdate(param);
     }
@@ -41,6 +46,11 @@ public class BoardServiceImpl implements BoardService{
     @Override
     public void boardDelete(int boardID) {
         boardDao.boardDelete(boardID);
+    }
+
+    @Override
+    public List<Board> boardSearchList(String keyword, String state) {
+        return boardDao.boardSearchList(keyword, state);
     }
 
 

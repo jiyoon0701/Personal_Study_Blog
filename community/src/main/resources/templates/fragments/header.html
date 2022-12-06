@@ -25,6 +25,11 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item" th:if = "${email} == null"><a class="nav-link" href="/user/login">Sign Up / Sign In</a></li>
+                <li class="nav-item" th:if = "${email} != null"><a class="nav-link" href="/board/write">블로그 작성</a></li>
+                <li class="nav-item" th:if = "${email} != null"><a class="nav-link" href="/board/view/true">블로그 보기</a></li>
+                <li class="nav-item" th:if = "${email} != null"><a class="nav-link" href="/board/view/false">임시 저장된 블로그 보기</a></li>
+                <li class="nav-item" th:if = "${email} != null"><a class="nav-link" href="/user/mypage">마이페이지</a></li>
+                <li class="nav-item" th:if = "${email} != null"><a class="nav-link" href="/user/logout">로그아웃</a></li>
                 <p th:text = "${email}"></p>
             </ul>
         </div>

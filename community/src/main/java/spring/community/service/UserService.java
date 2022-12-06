@@ -12,4 +12,8 @@ public interface UserService {
     public User login(User user);
     public int emailCheck(Map<String, Object> param);
     public void userIt(List<User_IT> it);
+
+    public List<String> userItInfo(Map<String, Object> param);
+
+    public User userInfo(Map<String, Object> param);
 }

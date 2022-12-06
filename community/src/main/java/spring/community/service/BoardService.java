@@ -12,7 +12,13 @@ public interface BoardService {
     public List<Board> boardView(Map<String, Object> param);
     public Board boardContentView(Integer BOARD_ID);
     public List<Board> boardAllView();
+
+    void boardSaveUpdate(Map<String, Object> param);
+
     public void boardUpdate(Map<String, Object> param);
 
     public void boardDelete(int boardID);
+
+    public List<Board> boardSearchList(String keyword, String state);
+
 }

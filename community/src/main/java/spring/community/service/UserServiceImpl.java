@@ -6,6 +6,7 @@ import spring.community.domain.User;
 import spring.community.domain.User_IT;
 import spring.community.mapper.UserDao;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,5 +37,17 @@ public class UserServiceImpl implements UserService{
 
     public void userIt(List<User_IT> it) {
         userDao.userIt(it);
+    }
+
+    @Override
+    public List<String> userItInfo(Map<String, Object> param) {
+        List<String> it = userDao.userItInfo(param);
+        return it;
+    }
+
+    @Override
+    public User userInfo(Map<String, Object> param) {
+        User user = userDao.userInfo(param);
+        return user;
     }
 }

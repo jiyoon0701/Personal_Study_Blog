@@ -12,6 +12,16 @@ public class Board {
 
     private String REPRE_IMAGE;
 
+    public Integer getRATING() {
+        return RATING;
+    }
+
+    public void setRATING(Integer RATING) {
+        this.RATING = RATING;
+    }
+
+    private Integer RATING;
+
     public String getSTATE() {
         return STATE;
     }

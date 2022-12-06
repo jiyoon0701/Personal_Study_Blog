@@ -18,12 +18,21 @@
         select * from board;
     </select>
     
+    <update id="boardSaveUpdate"  parameterType="Board">
+        update board set TITLE = #{TITLE}, CONTENT_HTML = #{CONTENT_HTML},
+                         CONTENT_MARK = #{CONTENT_MARK}, TAG=#{TAG}, STATE = #{STATE}, REPRE_IMAGE = #{REPRE_IMAGE} , RATING = #{RATING} where BOARD_ID = #{BOARD_ID}
+    </update>
+
     <update id="boardUpdate"  parameterType="Board">
         update board set TITLE = #{TITLE}, CONTENT_HTML = #{CONTENT_HTML},
-                         CONTENT_MARK = #{CONTENT_MARK}, TAG=#{TAG}, STATE = #{STATE} where BOARD_ID = #{BOARD_ID}
+                         CONTENT_MARK = #{CONTENT_MARK}, TAG=#{TAG}, STATE = #{STATE}, RATING = #{RATING} where BOARD_ID = #{BOARD_ID}
     </update>
 
     <delete id="boardDelete" parameterType="Int">
         delete from board where BOARD_ID = #{boardID}
     </delete>
+
+    <select id="boardSearchList" resultType="Board">
+        select * from board where TAG like CONCAT('%', #{keyword}, '%') and state=#{state}
+    </select>
 </mapper>

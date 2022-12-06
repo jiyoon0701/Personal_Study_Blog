@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="utf-8">
+<head>
+    <meta charset="UTF-8">
+    <title>Mypage</title>
+</head>
+<body>
+
+<div class="col-md-4" th:each = "user:${user}">
+    <p th:text="${user.USER_NAME}"></p>
+    <p th:text="${user.USER_EMAIL}"></p>
+</div>
+
+<div class="col-md-4" th:each = "it:${it}">
+    <p th:text="${it}"></p>
+</div>
+</body>
+</html>

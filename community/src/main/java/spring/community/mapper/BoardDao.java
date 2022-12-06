@@ -16,6 +16,9 @@ public interface BoardDao {
     public List<Board> boardAllView();
 
     public void boardUpdate(Map<String, Object> param);
+    public void boardSaveUpdate(Map<String, Object> param);
 
     public void boardDelete(int boardID);
+
+    public List<Board> boardSearchList(String keyword, String state);
 }
