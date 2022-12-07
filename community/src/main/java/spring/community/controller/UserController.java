@@ -43,6 +43,7 @@ public class UserController {
             if (userVO.getUSER_PASS().equals(user.getUSER_PASS())) {
                 session.setAttribute("email", userVO.getUSER_EMAIL());
                 session.setAttribute("userID",userVO.getUSER_ID());
+                session.setAttribute("userName",userVO.getUSER_NAME());
             }
 
         } catch (Exception e) {

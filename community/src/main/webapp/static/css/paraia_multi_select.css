@@ -3,7 +3,7 @@
     padding: 2px 80px 2px 2px;
 }
 
-.paraia-multi-select > .selected-items > .placeholder {
+.paraia-multi-select > .selected-items > .placeholders {
     display: inline-block;
     padding: 6.5px;
 }
@@ -24,7 +24,7 @@
 }
 
 /*.paraia-multi-select > .selected-items > button:nth-child(2) {
-    background: url("../assets/img/select-all.jpg") no-repeat center center;
+    background: url("../../assets/img/select-all.jpg") no-repeat center center;
     background-size: contain;
     right: 7px;
 }

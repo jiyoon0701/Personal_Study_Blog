@@ -1,19 +1,28 @@
 <!doctype html>
-<html lang="UTF-8">
+<html lang="utf-8" xmlns:th="http://www.thymeleaf.org">
 <head>
+  <header th:replace="fragments/config::configFragment"></header> <!--config 파일 -->
   <link href="../../../static/css/register.css"rel="stylesheet">
-  <link href="../../../static/css/paraia_multi_select.css" rel="stylesheet">
+
+  <link href="../../static/css/paraia_multi_select.css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <script src="http://code.jquery.com/jquery-latest.js"></script>
-  <script src="../../../static/js/paraia_multi_select.min.js"></script>
-  <script src = "../../../static/js/register.js"></script>
+
+  <script src="../../static/js/paraia_multi_select.min.js"></script>
+  <script src = "../../static/js/register.js"></script>
     <title>Document</title>
-
-
 </head>
+<!-- ======= Mobile nav toggle button ======= -->
+<!-- <button type="button" class="mobile-nav-toggle d-xl-none"><i class="bi bi-list mobile-nav-toggle"></i></button> -->
+<i class="bi bi-list mobile-nav-toggle d-lg-none"></i>
+<!-- ======= Header ======= -->
+<header id="header" class="d-flex flex-column justify-content-center">
+  <nav id="navbar" class="navbar nav-menu">
+    <div th:replace="fragments/sidebar::sidebarFragment(null)"> </div>
+  </nav><!-- .nav-menu -->
+</header><!-- End Header -->
 <body>
 <div class="container">
   <!-- Heading -->
@@ -50,36 +59,32 @@
     <div class="input__block">
       <input type="text" placeholder="Age" class="input repeat__password" id="USER_AGE" name = "USER_AGE"/>
     </div>
-       <div class="col-6" style="display : none">
+       <div class="selectIT" style="display : none">
          <h2>관심있는 분야를 골라주세요 :) </h2>
          <br>
          <input type="text" class="form-control"
                 data-paraia-multi-select="true"
                 placeholder="Select a stack" >
-
          <br>
        </div>
 
       <!-- sign in button -->
-      <button class="signin__btn" type="button" onclick="join()" >
-
-        Sign in
-      </button>
+      <button class="signin__btn" type="button" onclick="join()" >Sign in</button>
     </form>
   <!-- separator -->
-  <div class="separator">
-    <p>OR</p>
-  </div>
-  <!-- google button -->
-  <button class="google__btn">
-    <i class="fa fa-google"></i>
-    Sign in with Google
-  </button>
-  <!-- google button -->
-  <button class="kakao__btn">
-    <i class="fa fa-github"></i>
-    Sign in with Kakao
-  </button>
+<!--  <div class="separator">-->
+<!--    <p>OR</p>-->
+<!--  </div>-->
+<!--  &lt;!&ndash; google button &ndash;&gt;-->
+<!--  <button class="google__btn">-->
+<!--    <i class="fa fa-google"></i>-->
+<!--    Sign in with Google-->
+<!--  </button>-->
+<!--  &lt;!&ndash; google button &ndash;&gt;-->
+<!--  <button class="kakao__btn">-->
+<!--    <i class="fa fa-github"></i>-->
+<!--    Sign in with Kakao-->
+<!--  </button>-->
 </div>
 <script>
 

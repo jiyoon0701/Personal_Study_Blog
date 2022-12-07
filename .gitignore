@@ -4,3 +4,7 @@ community/src/main/resources/application.properties
 community/src/main/webapp/static/css/styles.css
 
 community/src/main/webapp/static/css/style.css
+
+community/src/main/webapp/static/assets/
+
+community/src/main/webapp/static/asset/

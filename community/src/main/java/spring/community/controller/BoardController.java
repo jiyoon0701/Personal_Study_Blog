@@ -112,6 +112,7 @@ public class BoardController {
         List<Board> boardList = boardService.boardView(maps);
         ma.addObject("boardList", boardList);
         ma.addObject("state", state);
+        ma.addObject("email", email);
         ma.setViewName("board/view");
         return ma;
     }
@@ -151,12 +152,14 @@ public class BoardController {
     }
 
     @GetMapping("search")
-    public ModelAndView boardSearch(@RequestParam(value = "keyword") String keyword, @RequestParam(value = "state") String state){
+    public ModelAndView boardSearch(@RequestParam(value = "keyword") String keyword, @RequestParam(value = "state") String state, HttpSession session){
         ModelAndView ma = new ModelAndView();
         List<Board> boardSearchList = boardService.boardSearchList(keyword, state);
         ma.addObject("boardList", boardSearchList);
         ma.addObject("state", state);
+        String email = (String) session.getAttribute("email");
         ma.setViewName("board/view");
+        ma.addObject("email",email);
         return ma;
     }
 }

@@ -13,7 +13,7 @@ function removeItem(id) {
     selected_item.remove();
 
     if (multi_select.find('.selected-items > .item').length < 1) {
-        multi_select.find('.selected-items > .placeholder').show();
+        multi_select.find('.selected-items > .placeholders').show();
     }
 }
 
@@ -22,7 +22,7 @@ function selectAll(id, multi_select) {
     select.find('.dropdown').find('input').prop('checked', true);
 
     if (multi_select) {
-        select.find('.placeholder').hide();
+        select.find('.placeholders').hide();
         select.find('.selected-items > .item').remove();
         select.find('.dropdown > .items').find('input').each(function () {
             var item = $(this);
@@ -44,7 +44,7 @@ function deselectAll(id) {
     var select = $('#paraia-multi-select-' + id);
     select.find('.dropdown').find('input').prop('checked', false);
 
-    select.find('.selected-items > .placeholder').show();
+    select.find('.selected-items > .placeholders').show();
     select.find('.selected-items > .item').remove();
 }
 
@@ -72,7 +72,7 @@ function deselectAll(id) {
             select = $(
                 '<div class="paraia-multi-select ' + (settings.rtl ? 'rtl' : '') + '" id="paraia-multi-select-' + selectId + '">' +
                 '   <div class="selected-items form-control">' +
-                '      <span class="placeholder">' + input.attr('placeholder') + '</span>' +
+                '      <span class="placeholders">' + input.attr('placeholder') + '</span>' +
                 '   </div>' +
                 '   <div class="dropdown form-control">' +
                 '       <div class="filter">' +
@@ -87,7 +87,7 @@ function deselectAll(id) {
             selectedItems = select.find('.selected-items');
 
             if (settings.defaults.length > 0) {
-                selectedItems.find('.placeholder').hide();
+                selectedItems.find('.placeholderss').hide();
             }
 
             // multi_select is off and defaults length is greater than 1
@@ -142,7 +142,7 @@ function deselectAll(id) {
 
                 // Hide placeholder
                 if (selectedItems.find('.item').length < 1) {
-                    selectedItems.find('.placeholder').hide();
+                    selectedItems.find('.placeholders').hide();
                 }
 
                 // if the item is already checked
@@ -154,7 +154,7 @@ function deselectAll(id) {
 
                     // Set placeholder
                     if (selectedItems.find('.item').length < 1) {
-                        selectedItems.find('.placeholder').show();
+                        selectedItems.find('.placeholders').show();
                     }
                 } else {
                     // if multi-select option is off

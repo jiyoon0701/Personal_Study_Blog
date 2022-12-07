@@ -1,11 +1,11 @@
 $(document).ready(function (value1, value2){
 
-    let signup = $(".links").find("li").find("#signup");
-    let signin = $(".links").find("li").find("#signin");
-    let reset  = $(".links").find("li").find("#reset");
+    let signup = $(".links").find("#signup");
+    let signin = $(".links").find("#signin");
+    let reset  = $(".links").find("#reset");
     let first_input = $("form").find(".first-input");
     let hidden_input = $("form").find(".input__block").find(".repeat__password");
-    let hidden_select = $("form").find(".col-6");
+    let hidden_select = $("form").find(".selectIT");
 
     let signin_btn  = $("form").find(".signin__btn");
 
