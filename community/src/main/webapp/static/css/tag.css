@@ -1,6 +1,9 @@
 *:before, *:after {
     box-sizing: border-box;
 }
+body{
+    margin-left: 100px!important;
+}
 
 .tags__title {
     color: #89949f;
@@ -25,7 +28,6 @@
     border-radius: 10em;
 }
 .tags__list {
-    padding: 0;
     list-style: none;
     display: flex;
     flex-wrap: wrap;

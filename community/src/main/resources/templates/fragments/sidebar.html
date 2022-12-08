@@ -13,9 +13,9 @@
     <li th:if = "${email} ==null"><a href="#info" class="nav-link scrollto"><i class="bx bx-info-circle"></i> <span>Info</span></a></li> <!-- 사용 설명 첨부 할 예정 영상으로... -->
     <li th:if = "${email} !=null"><a href="/board/view/true" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Blog</span></a></li>
     <li th:if = "${email} !=null"><a href="/board/view/false" class="nav-link scrollto"><i class="bx bx-file-blank"></i> <span>Forest Saved Blog</span></a></li>
-    <li th:if = "${email} !=null"><a href="#portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Portfolio</span></a></li>
-    <li th:if = "${email} !=null"><a href="#services" class="nav-link scrollto"><i class="bx bx-server"></i> <span>Services</span></a></li>
-    <li th:if = "${email} !=null"><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>
+<!--    <li th:if = "${email} !=null"><a href="#portfolio" class="nav-link scrollto"><i class="bx bx-book-content"></i> <span>Portfolio</span></a></li>-->
+    <li th:if = "${email} !=null"><a href="/board/write" class="nav-link scrollto"><i class="bx bx-server"></i> <span>Write a blog</span></a></li>
+<!--    <li th:if = "${email} !=null"><a href="#contact" class="nav-link scrollto"><i class="bx bx-envelope"></i> <span>Contact</span></a></li>-->
     <li th:if = "${email} !=null"><a href="/user/logout" class="nav-link scrollto"><i class="bx bx-log-out"></i> <span>Logout</span></a></li>
 </ul>
 </body>

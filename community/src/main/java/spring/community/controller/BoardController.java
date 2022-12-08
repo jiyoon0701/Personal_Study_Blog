@@ -51,6 +51,7 @@ public class BoardController {
         log.info("board id : " + id);
         ma.addObject("boardID", boardId);
         ma.addObject("content", board);
+        ma.addObject("email",email);
         ma.setViewName("board/write");
         return ma;
     }
@@ -118,10 +119,15 @@ public class BoardController {
     }
 
     @GetMapping("contentView/{boardID}")
-    public ModelAndView contentView(@PathVariable("boardID") int boardID) {
+    public ModelAndView contentView(@PathVariable("boardID") int boardID, HttpSession session) {
         ModelAndView ma = new ModelAndView();
+        String email = (String) session.getAttribute("email");
         Board contentView = boardService.boardContentView(boardID);
+        String tags = contentView.getTAG();
+        String[] tag = tags.split(",");
         ma.addObject("content", contentView);
+        ma.addObject("tag", tag);
+        ma.addObject("email", email);
         ma.setViewName("board/contentView");
         return ma;
     }

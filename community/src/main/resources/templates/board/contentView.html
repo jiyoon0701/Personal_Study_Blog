@@ -3,22 +3,63 @@
 <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <head>
     <meta charset="UTF-8">
+    <header th:replace="fragments/config::configFragment"></header>
     <title>Title</title>
-</head>
-<body>
-<input type="button" value="htmlToPDF" id="btnPrint">
-<a  th:href="@{/board/delete/{BOARD_ID} (BOARD_ID=${content.BOARD_ID})}">게시글 삭제</a>
-<p th:text = "${content.BOARD_ID}"></p>
-<p th:text = "${content.USER_ID}"></p>
-<p th:text = "${content.TITLE}"></p>
-<p th:text = "${content.TAG}"></p>
-<div class = "content_HTML" id = "content_HTML">
+    <style>
+        .tags{
+            text-align: left;
+            margin-top: 10px;
+            text-align: center;
+        }
+        #tag {
+            border-radius: 5px;
+            margin-top: 10px;
+            margin-right: 10px;
+            background-color: #d3e6f3;
+            color: black;
+            display: inline-block;
+            font-size: 0.8rem;
+            border-radius: 5px;
+            height: 32px;
+            line-height: 32px;
+            padding: 0 14px;
+            transition-duration: 0.2s;
 
+        }
+    </style>
+</head>
+<body style="margin: 0 200px;">
+<!-- ======= Mobile nav toggle button ======= -->
+<!-- <button type="button" class="mobile-nav-toggle d-xl-none"><i class="bi bi-list mobile-nav-toggle"></i></button> -->
+<i class="bi bi-list mobile-nav-toggle d-lg-none"></i>
+<!-- ======= Header ======= -->
+<header id="header" class="d-flex flex-column justify-content-center" >
+    <nav id="navbar" class="navbar nav-menu">
+        <div th:replace="fragments/sidebar::sidebarFragment(${email})"> </div>
+    </nav><!-- .nav-menu -->
+</header><!-- End Header -->
+<!--<input type="button" value="htmlToPDF" id="btnPrint">-->
+<a  th:href="@{/board/delete/{BOARD_ID} (BOARD_ID=${content.BOARD_ID})}">게시글 삭제</a>
+<!--<p th:text = "${content.BOARD_ID}"></p>-->
+<!--<p th:text = "${content.USER_ID}"></p>-->
+<div class="section-title" style = "margin-top: 120px">
+<h1 th:text = "${content.TITLE}" ></h1>
+<p th:text = "${content.BOARD_DATE}" style="margin-bottom: 20px"></p>
+    <a href = "/board/delete/{BOARD_ID}">삭제</a>
+    <a href = "/board/update/{BOARD_ID}">수정</a>
+    <a href = "content" id="btnPrint" style="color:#0563bb">PDF변환</a>
 </div>
-<div class = "content_MARK" id = "content_MARK">
+<hr>
+<div class = "content_HTML" id = "content_HTML" style="text-align: center">
+</div>
+<div class = "tags">
+    <th:block th:each="tags : ${tag}">
+        <p id = "tag" th:text = "${tags}"></p>
+    </th:block>
 
 </div>
 </body>
+
 <script th:inline="javascript" charset="UTF-8">
     const temp = document.createElement("div");
     const content_html = [[${content.CONTENT_HTML}]];

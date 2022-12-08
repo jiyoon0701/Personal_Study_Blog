@@ -3,8 +3,7 @@
 <head>
     <!-- Toast UI Editor -->
     <meta charset="utf-8" />
-    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-
+    <header th:replace="fragments/config::configFragment"></header> <!--config 파일 -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
     <link rel="stylesheet" href="../../static/css/tag.css">
     <style>
@@ -20,7 +19,7 @@
         /* Styling h1 and links
         ––––––––––––––––––––––––––––––––– */
         h1[alt="Simple"] {color: white;}
-        a[href], a[href]:hover {font-size: 0.5em; text-decoration: none}
+        a[href], a[href]:hover { text-decoration: none}
 
         .starrating > input {display: none;}  /* Remove radio buttons */
 
@@ -43,7 +42,17 @@
         .starrating > input:hover ~ label
         { color: #ffca08 ;  } /* Set yellow color when star hover */
     </style>
+
 </head>
+<!-- ======= Mobile nav toggle button ======= -->
+<!-- <button type="button" class="mobile-nav-toggle d-xl-none"><i class="bi bi-list mobile-nav-toggle"></i></button> -->
+<i class="bi bi-list mobile-nav-toggle d-lg-none"></i>
+<!-- ======= Header ======= -->
+<header id="header" class="d-flex flex-column justify-content-center">
+    <nav id="navbar" class="navbar nav-menu">
+        <div th:replace="fragments/sidebar::sidebarFragment(${email})"> </div>
+    </nav><!-- .nav-menu -->
+</header><!-- End Header -->
 <body>
 <div>
     <button type="button" id = "priBtn" >게시글 임시저장</button>
@@ -61,7 +70,7 @@
 <h3 class="text-center" alt="Simple">중요도를 작성해주세요 :)</h3>
 
 <div class="container">
-    <div class="starrating risingstar d-flex justify-content-center flex-row-reverse"  id = "star-rating" style=" direction: rtl;">
+    <div class="starrating risingstar d-flex justify-content-center flex-row-reverse"  id = "star-rating" >
         <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 star">5</label>
         <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 star">4</label>
         <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 star">3</label>
