@@ -6,14 +6,36 @@ const list = document.getElementById('list');
 const remove = document.getElementById('remove');
 
 const bbb = document.getElementById("bbb");
-console.log(bbb);
-if (bbb != null){
+console.log(bbb.value);
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            $('#imagePreview').css('background-image', 'url('+e.target.result +')');
+            $('#imagePreview').hide();
+            $('#imagePreview').fadeIn(650);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+$("#files").change(function() {
+    console.log("image Upload", this);
+    readURL(this);
+});
+
+if (bbb.value){
     const tag = bbb.value.split(',');
     tags = tag;
-    for (let i in tag){
+    console.log(tags);
+    for (let i in tags){
         list.insertAdjacentHTML('beforeend', `<li class="tags__item"><span class="tags__inner">${tag[i]}</span><button type="button" class="tags__remove" aria-label="Remove ${tag[i]} tag">&times;</button></li>`);
     }
 }
+
+const avatarInput = document.querySelector('#files');
+const avatarName = document.querySelector('.input-file__name');
+
 function imageUpload(formData) {
     let imageURL;
 
@@ -100,7 +122,7 @@ function imageUrl(state,imageURL){
         },
         async: false,
         success: function (data) {
-            alert("등록 완료")
+            alert("등록 완료");
             window.location.href = "/board/view/"+state.toString();
         },
         error: function (request, status, error) {

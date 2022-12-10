@@ -6,13 +6,9 @@
     <header th:replace="fragments/config::configFragment"></header> <!--config 파일 -->
     <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
     <link rel="stylesheet" href="../../static/css/tag.css">
+    <link rel="stylesheet" href="../../static/css/button.css">
+    <link href="../../static/css/mypage.css" rel="stylesheet">
     <style>
-        /***
- *  Simple Pure CSS Star Rating Widget Bootstrap 4
- *
- *  www.TheMastercut.co
- *
- ***/
 
         @import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
 
@@ -26,10 +22,12 @@
         .starrating > label:before {
             content: "\f005"; /* Star */
             margin: 2px;
-            font-size: 8em;
+            font-size: 2.5em;
             font-family: FontAwesome;
             display: inline-block;
         }
+
+
 
         .starrating > label
         {
@@ -41,8 +39,70 @@
 
         .starrating > input:hover ~ label
         { color: #ffca08 ;  } /* Set yellow color when star hover */
-    </style>
 
+        #TITLE
+        { border-radius: 15px; }
+
+
+
+        .input-file-container {
+            width: 300px;
+        }
+
+        .input-file {
+            width: 300px;
+            height: 50px;
+            border: 1px solid #16858F;
+            display: flex;
+            flex-wrap: wrap;
+            position: relative;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        #files {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+
+        .input-file__name {
+            width: 83%;
+            display: flex;
+            align-items: center;
+            font-size: 1.5em;
+            padding: 0 15px ;
+            margin: 0;
+            color: #16858F;
+        }
+
+        .input-file__button {
+            width: 17%;
+            font-size: 2em;
+            padding: 0;
+            border: none;
+            background-color: #10BAB9;
+            color: #ffffff;
+        }
+        .input-file__button > label:before{
+            content: "\f093"; /* Upload */
+            margin: 2px;
+            font-family: FontAwesome;
+            display: inline-block;
+        }
+
+
+
+        .image-preview {
+            width: 70%;
+            display: block;
+            margin: 20px auto 0;
+            border-radius: 8px;
+        }
+    </style>
 </head>
 <!-- ======= Mobile nav toggle button ======= -->
 <!-- <button type="button" class="mobile-nav-toggle d-xl-none"><i class="bi bi-list mobile-nav-toggle"></i></button> -->
@@ -51,26 +111,59 @@
 <header id="header" class="d-flex flex-column justify-content-center">
     <nav id="navbar" class="navbar nav-menu">
         <div th:replace="fragments/sidebar::sidebarFragment(${email})"> </div>
-    </nav><!-- .nav-menu -->
-</header><!-- End Header -->
+    </nav>
+    <!-- .nav-menu -->
+</header>
+<!-- End Header -->
 <body>
-<div>
-    <button type="button" id = "priBtn" >게시글 임시저장</button>
-    <a  th:href="@{/board/delete/{BOARD_ID} (BOARD_ID=${boardID})}">게시글 삭제</a>
-    <h1 style="text-align:center">
-        <input type = "text" placeholder=" 제목을 입력해주세요" id = "TITLE" th:value="${content.TITLE}">
-    </h1>
+<div style="display: flex;
+    align-items: center;
+    justify-content: center;">
+<div class="input-file-container" th:if="${content.CONTENT_HTML == null}" style="display: flex; margin-right: 100px;">
+    <div>
+<!--        <input type="file"  id = "files"name = "files" multiple = "multiple" class="pre">-->
+<!--        <img src="https://i.ibb.co/0Jmshvb/no-image.png" class="image-preview" alt="preview image">-->
+
+        <div class="containers">
+            <div class="avatar-upload">
+                <div class="avatar-edit">
+<!--                    <input type='file' id="imageUpload" accept=".png, .jpg, .jpeg" />-->
+                    <input type="file"  id = "files"name = "files" multiple = "multiple" class="pre">
+                    <label for="files"></label>
+                </div>
+                <div class="avatar-preview" style="height: 300px;">
+                    <div id="imagePreview" style="background-image: url(https://i.ibb.co/0Jmshvb/no-image.png);">
+
+                    </div>
+                    <!--대표사진은 변경 불가능 -->
+                    <h3 style="text-align: center;"> 대표 사진 업로드</h3>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+    <div>
+    <h4 style="text-align:center; margin-top: 60px;">
+        <input type = "text" placeholder=" 제목 입력" id = "TITLE" th:value="${content.TITLE}">
+    </h4>
     <input type="hidden" id="aaa" th:value="${content.CONTENT_MARK}"/>
     <input type="hidden" id="bbb" th:value="${content.TAG}"/>
     <input type="hidden" id="ccc" th:value="${boardID}"/>
-</div>
 
-<button id="bb">별점</button>
 
-<h3 class="text-center" alt="Simple">중요도를 작성해주세요 :)</h3>
+<h4 class="text-center" alt="Simple" style="display: flex;
+    justify-content: center;
+    padding: 30px 0 10px 0;">
+    <p style = "background-image: linear-gradient(90deg, #e67399, #f2a640);
+    background-position: bottom;
+    background-size: 100% 30%;
+    background-repeat: no-repeat;">중요도</p>를 체크해주세요 :)</h4>
+
 
 <div class="container">
-    <div class="starrating risingstar d-flex justify-content-center flex-row-reverse"  id = "star-rating" >
+    <div class="starrating risingstar d-flex justify-content-center flex-row-reverse"  id = "star-rating" style = "margin-bottom: 20px;">
         <input type="radio" id="star5" name="rating" value="5" /><label for="star5" title="5 star">5</label>
         <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 star">4</label>
         <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 star">3</label>
@@ -78,11 +171,19 @@
         <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star">1</label>
     </div>
 </div>
+    </div>
+</div>
+<!--    <form id = "save">-->
+    <div style="text-align: right; margin-right : 50px;">
+        <button class="learn-more" id = "saveBtn">저장하기</button>
+        <button class="learn-more" id = "priBtn">게시글 임시저장</button>
+    </div>
 
-<div id="editor"></div>
-<form id = "save">
+</div>
+    <div id="editor"></div>
+
     <input type="text" style="display:none;"/> <!-- 의미없는 텍스트 박스 -->
-    <label class="tags">
+    <label class="tags" style="display:inline!important;">
         <span class="tags__title">Add Tag separated by comma</span>
         <div class="tags__content">
             <ul class="tags__list" id="list" aria-live="polite" aria-atomic="false"></ul>
@@ -92,20 +193,31 @@
             </div>
         </div>
     </label>
-    <!--대표사진은 변경 불가능 -->
+    <br>
 
-    <input th:if="${content.CONTENT_HTML == null}" type="file" id = "files"name = "files" multiple = "multiple" class="pre">
-    <button type="button" id = "saveBtn">저장하기</button>
-</form>
 
-<button onclick="seeHtml()">html보기</button>]
-<button onclick="seeMd()">markdown보기</button>
+<!--&lt;!&ndash;    <input th:if="${content.CONTENT_HTML == null}" type="file" id = "files"name = "files" multiple = "multiple" class="pre">&ndash;&gt;-->
+<!--    <div class="input-file-container" th:if="${content.CONTENT_HTML == null}">-->
+<!--        <div class="input-file">-->
+<!--            <p class="input-file__name">Choose an image...</p>-->
+<!--            <button type="button" class="input-file__button">-->
+<!--&lt;!&ndash;              <i class="bx bx-upload"/>&ndash;&gt;-->
+<!--                <label for="star1" title="1 star"></label>-->
+<!--            </button>-->
+<!--            <input type="file"  id = "files"name = "files" multiple = "multiple" class="pre">-->
+<!--        </div>-->
+<!--        <img src="https://i.ibb.co/0Jmshvb/no-image.png" class="image-preview" alt="preview image">-->
+<!--    </div>-->
+<!--    <button type="button" id = "saveBtn">저장하기</button>-->
+
+<!--</form>-->
+
+<!--<button onclick="seeHtml()">html보기</button>-->
+<!--<button onclick="seeMd()">markdown보기</button>-->
 <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
 <script>
     $(function(){
-        let star_rating =$("#star-rating input[type=radio]:checked").val()
-
-
+        let star_rating =$("#star-rating input[type=radio]:checked").val();
         $('#saveBtn').on('click', function(){
             if (star_rating == "undefined"){
                 alert("중요도를 선택해주세요");
@@ -121,10 +233,10 @@
                 save("false");
             }
         });
-
-      //
     });
 
 </script>
+
 <script src="../../static/js/tag.js"></script>
+
 </body>

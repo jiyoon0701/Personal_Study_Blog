@@ -99,7 +99,7 @@
     </div>
 
 
-    <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200" style="margin-top: 60px;"  >
+    <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200" style="margin: 80px 0 0 120px;"  >
       <div class="col-lg-4 col-md-6 portfolio-item filter-app" th:each = "board:${boardList}">
         <div style= "display: flex; justify-content : center;">
           <th:block th:each="num: ${#numbers.sequence(1, board.RATING)}">
@@ -109,14 +109,15 @@
           </th:block>
         </div>
         <div class="portfolio-wrap">
-          <img th:if = "${board.REPRE_IMAGE} != 'null'" th:src= "@{https://community-pro.s3.ap-northeast-2.amazonaws.com/Community/{USER_ID}/{BOARD_ID}/{REPRE_IMAGE} (REPRE_IMAGE = ${board.REPRE_IMAGE}, USER_ID = ${board.USER_ID}, BOARD_ID = ${board.BOARD_ID})}" class="img-fluid" alt="">
-          <img th:if = "${board.REPRE_IMAGE} == 'null'" src= "../../static/assets/img/noimage.png" class="img-fluid" alt="">
+          <img th:if = "${board.REPRE_IMAGE} !=  null" th:src= "@{https://community-pro.s3.ap-northeast-2.amazonaws.com/Community/{USER_ID}/{BOARD_ID}/{REPRE_IMAGE} (REPRE_IMAGE = ${board.REPRE_IMAGE}, USER_ID = ${board.USER_ID}, BOARD_ID = ${board.BOARD_ID})}" class="img-fluid" alt="">
+          <img th:if = "${board.REPRE_IMAGE} == null" src= "../../static/assets/img/noimage.png" class="img-fluid" alt="">
           <div class="portfolio-info">
             <h4 th:text="${board.TITLE}"></h4>
-            <p>App</p>
+            <p th:text="${board.TAG}"> </p>
             <div class="portfolio-links">
-              <a th:if = "${board.REPRE_IMAGE} != 'null'" th:href="@{https://community-pro.s3.ap-northeast-2.amazonaws.com/Community/{USER_ID}/{BOARD_ID}/{REPRE_IMAGE} (REPRE_IMAGE = ${board.REPRE_IMAGE}, USER_ID = ${board.USER_ID}, BOARD_ID = ${board.BOARD_ID})}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 1"><i class="bx bx-plus"></i></a>
-              <a th:if = "${board.REPRE_IMAGE} == 'null'" href="../../static/assets/img/noimage.png" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 1"><i class="bx bx-plus"></i></a>
+
+              <a th:if = "${board.REPRE_IMAGE} != ''" th:href="@{https://community-pro.s3.ap-northeast-2.amazonaws.com/Community/{USER_ID}/{BOARD_ID}/{REPRE_IMAGE} (REPRE_IMAGE = ${board.REPRE_IMAGE}, USER_ID = ${board.USER_ID}, BOARD_ID = ${board.BOARD_ID})}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 1"><i class="bx bx-plus"></i></a>
+              <a th:if = "${board.REPRE_IMAGE} == ''" href="../../static/assets/img/noimage.png" data-gallery="portfolioGallery" class="portfolio-lightbox" title="App 1"><i class="bx bx-plus"></i></a>
               <a th:href="@{/board/contentView/{BOARD_ID} (BOARD_ID=${board.BOARD_ID})}" ><i class="bx bx-link"></i></a>
             </div>
           </div>

@@ -10,7 +10,7 @@
     reader.readAsDataURL(input.files[0]);
 }
 }
-    $("#imageUpload").change(function() {
+    $("#files").change(function() {
         console.log("image Upload", this);
     readURL(this);
 });

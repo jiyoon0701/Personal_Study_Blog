@@ -38,15 +38,11 @@
         <div th:replace="fragments/sidebar::sidebarFragment(${email})"> </div>
     </nav><!-- .nav-menu -->
 </header><!-- End Header -->
-<!--<input type="button" value="htmlToPDF" id="btnPrint">-->
-<a  th:href="@{/board/delete/{BOARD_ID} (BOARD_ID=${content.BOARD_ID})}">게시글 삭제</a>
-<!--<p th:text = "${content.BOARD_ID}"></p>-->
-<!--<p th:text = "${content.USER_ID}"></p>-->
 <div class="section-title" style = "margin-top: 120px">
 <h1 th:text = "${content.TITLE}" ></h1>
 <p th:text = "${content.BOARD_DATE}" style="margin-bottom: 20px"></p>
-    <a href = "/board/delete/{BOARD_ID}">삭제</a>
-    <a href = "/board/update/{BOARD_ID}">수정</a>
+    <a th:href="@{/board/delete/{BOARD_ID} (BOARD_ID=${content.BOARD_ID})}">삭제</a>
+    <a th:href="@{/board/update/{BOARD_ID} (BOARD_ID=${content.BOARD_ID})}">수정</a>
     <a href = "content" id="btnPrint" style="color:#0563bb">PDF변환</a>
 </div>
 <hr>
@@ -72,8 +68,8 @@
         printWindow.document.write('</head><body >');
         printWindow.document.write([[${content.CONTENT_HTML}]].toString());
         printWindow.document.write('</body></html>');
-        printWindow.document.close();
         printWindow.print();
+        printWindow.document.close();
     });
 
     function htmlToPdf() {
@@ -84,15 +80,12 @@
                 htmls : [[${content.CONTENT_HTML}]]
             },
             success: function (data) {
-             alert("변환되었습니다.")
+                alert("변환되었습니다.")
             },
             error: function (request, status, error) {
                 alert(request + ", " + status + ", " + error);
             },
-
         });
     }
 </script>
-
-
 </html>

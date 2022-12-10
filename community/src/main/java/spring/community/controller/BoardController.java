@@ -110,7 +110,9 @@ public class BoardController {
         maps.put("USER_EMAIL", email);
         maps.put("USER_ID", userID);
         maps.put("STATE", state);
+
         List<Board> boardList = boardService.boardView(maps);
+//        log.info("사진 값",String.valueOf(boardList.get(5)));
         ma.addObject("boardList", boardList);
         ma.addObject("state", state);
         ma.addObject("email", email);
