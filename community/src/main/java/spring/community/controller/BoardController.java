@@ -1,17 +1,20 @@
 package spring.community.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import spring.community.aop.LoginCheckAspect;
 import spring.community.config.S3UploaderService;
 import spring.community.domain.Board;
 import spring.community.service.BoardService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.time.LocalDate;
@@ -32,6 +35,9 @@ public class BoardController {
     @Autowired
     S3UploaderService s3Uploader;
 
+    @Autowired
+    LoginCheckAspect loginCheckAspect;
+
     Map<String, Object> maps = new HashMap<String, Object>();
 
     ArrayList<MultipartFile> boardImg = new ArrayList<MultipartFile>();
@@ -40,11 +46,17 @@ public class BoardController {
 
     @GetMapping("write")
     public ModelAndView board_write(HttpSession session, Board board) {
-        String email = (String) session.getAttribute("email");
         ModelAndView ma = new ModelAndView();
-        int userID = (int) session.getAttribute("userID");
-        board.setUSER_ID(userID);
-        board.setSTATE("false");
+        String email = null;
+        try{
+            email = (String) session.getAttribute("email");
+            int userID = (int) session.getAttribute("userID");
+            board.setUSER_ID(userID);
+            board.setSTATE("false");
+        }catch (Exception e){
+            log.info("로그잉ㄴ 하쇼");
+        }
+
         boardService.boardCreate(board);
         int id = board.getBOARD_ID();
         boardId = id;
@@ -58,7 +70,7 @@ public class BoardController {
 
     @ResponseBody
     @PostMapping("imageupload")
-    public String imageUpload(@RequestParam("image") MultipartFile multipartFile, HttpSession session) throws IOException {
+    public String imageUpload(HttpSession session,@RequestParam("image") MultipartFile multipartFile) throws IOException {
 
         if (multipartFile.isEmpty()) {
             System.out.println("error ");
@@ -79,7 +91,7 @@ public class BoardController {
     }
 
     @PostMapping("save")
-    public String board_write(@RequestParam Map<String, Object> map, Board board) {
+    public String board_write(HttpSession session, @RequestParam Map<String, Object> map, HttpServletResponse response, Board board) {
         maps.clear();
         maps.put("TITLE", map.get("TITLE"));
         maps.put("CONTENT_HTML", map.get("content_HTML"));
@@ -102,26 +114,30 @@ public class BoardController {
     }
 
     @GetMapping("view/{state}") // 내가 작성한 글 반환
-    public ModelAndView boardView(HttpSession session, @PathVariable("state") String state) {
+    public ModelAndView boardView(HttpSession session, @PathVariable("state") String state, HttpServletResponse response) throws IOException {
         ModelAndView ma = new ModelAndView();
         maps.clear();
-        String email = (String) session.getAttribute("email");
-        int userID = (int) session.getAttribute("userID");
-        maps.put("USER_EMAIL", email);
-        maps.put("USER_ID", userID);
-        maps.put("STATE", state);
+        try {
+            String email = (String) session.getAttribute("email");
+            int userID = (int) session.getAttribute("userID");
+            maps.put("USER_EMAIL", email);
+            maps.put("USER_ID", userID);
+            maps.put("STATE", state);
+        } catch (Exception e){
+            log.info("로그인 하셔");
+        }
 
         List<Board> boardList = boardService.boardView(maps);
-//        log.info("사진 값",String.valueOf(boardList.get(5)));
+//        log.info("사진 값",String.valueOf(boardList.get(5유));
         ma.addObject("boardList", boardList);
         ma.addObject("state", state);
-        ma.addObject("email", email);
+        ma.addObject("email", maps.get("USER_EMAIL"));
         ma.setViewName("board/view");
         return ma;
     }
 
     @GetMapping("contentView/{boardID}")
-    public ModelAndView contentView(@PathVariable("boardID") int boardID, HttpSession session) {
+    public ModelAndView contentView( HttpSession session, @PathVariable("boardID") int boardID,HttpServletResponse response) {
         ModelAndView ma = new ModelAndView();
         String email = (String) session.getAttribute("email");
         Board contentView = boardService.boardContentView(boardID);
@@ -150,7 +166,7 @@ public class BoardController {
     }
 
     @GetMapping("update/{boardID}") // 업데이트를 위한 수정 페이지를 띄워줘야함
-    public ModelAndView boardUpdate(@PathVariable("boardID") int boardID) {
+    public ModelAndView boardUpdate(HttpSession session, @PathVariable("boardID") int boardID) {
         ModelAndView ma = new ModelAndView();
         Board contentView = boardService.boardContentView(boardID);
         ma.addObject("content", contentView);
@@ -160,7 +176,7 @@ public class BoardController {
     }
 
     @GetMapping("search")
-    public ModelAndView boardSearch(@RequestParam(value = "keyword") String keyword, @RequestParam(value = "state") String state, HttpSession session){
+    public ModelAndView boardSearch(HttpSession session, @RequestParam(value = "keyword") String keyword,HttpServletResponse response ,@RequestParam(value = "state") String state ){
         ModelAndView ma = new ModelAndView();
         List<Board> boardSearchList = boardService.boardSearchList(keyword, state);
         ma.addObject("boardList", boardSearchList);

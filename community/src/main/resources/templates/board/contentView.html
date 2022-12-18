@@ -43,34 +43,32 @@
 <p th:text = "${content.BOARD_DATE}" style="margin-bottom: 20px"></p>
     <a th:href="@{/board/delete/{BOARD_ID} (BOARD_ID=${content.BOARD_ID})}">삭제</a>
     <a th:href="@{/board/update/{BOARD_ID} (BOARD_ID=${content.BOARD_ID})}">수정</a>
-    <a href = "content" id="btnPrint" style="color:#0563bb">PDF변환</a>
-</div>
-<hr>
-<div class = "content_HTML" id = "content_HTML" style="text-align: center">
-</div>
+    <button href = "content" id="btnPrint" style="color:#0563bb; background-color:transparent; border : none;">PDF변환</button>
+
 <div class = "tags">
     <th:block th:each="tags : ${tag}">
-        <p id = "tag" th:text = "${tags}"></p>
+        <p th:if = "${tags != ''}" id = "tag" th:text = "${tags}"></p>
     </th:block>
-
 </div>
+</div>
+<hr>
+<div class = "content_HTML" id = "content_HTML" style="display: flex; justify-content: center;">
+</div>
+
 </body>
 
 <script th:inline="javascript" charset="UTF-8">
-    const temp = document.createElement("div");
-    const content_html = [[${content.CONTENT_HTML}]];
-    temp.innerHTML = content_html;
-    document.querySelector(".content_HTML").append(temp);
 
-    $("#btnPrint").on("click", function () {
-        const printWindow = window.open('', '', 'height=400,width=800');
-        printWindow.document.write('<html><head><title>Html to PDF</title>');
-        printWindow.document.write('</head><body >');
-        printWindow.document.write([[${content.CONTENT_HTML}]].toString());
-        printWindow.document.write('</body></html>');
-        printWindow.print();
-        printWindow.document.close();
-    });
+ $("#btnPrint").on("click", function () {
+        const printWindow = window.open("", "_blank", "width=550, height=460");
+         printWindow.document.write('<html><head><title>Html to PDF</title>');
+         printWindow.document.write('</head><body >');
+         printWindow.document.write([[${content.CONTENT_HTML}]].toString());
+         printWindow.document.write('</body></html>');
+         printWindow.print();
+         printWindow.document.close();
+          printWindow.close();
+     });
 
     function htmlToPdf() {
         $.ajax({
