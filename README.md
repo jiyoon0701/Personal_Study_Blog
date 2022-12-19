@@ -1,1 +1,1 @@
-# Springboot_Board_Community
+# personal study blog
