@@ -160,7 +160,7 @@ public class BoardController {
     }
 
     @GetMapping("delete/{boardID}") // 게시글 삭제
-    public String boardDelete(@PathVariable("boardID") int boardID) {
+    public String boardDelete(HttpSession session,@PathVariable("boardID") int boardID) {
         boardService.boardDelete(boardID);
         return "redirect:/board/view/true";
     }
