@@ -58,6 +58,10 @@
 </body>
 
 <script th:inline="javascript" charset="UTF-8">
+    const temp = document.createElement("div");
+    const content_html = [[${content.CONTENT_HTML}]];
+    temp.innerHTML = content_html;
+    document.querySelector(".content_HTML").append(temp);
 
  $("#btnPrint").on("click", function () {
         const printWindow = window.open("", "_blank", "width=550, height=460");
